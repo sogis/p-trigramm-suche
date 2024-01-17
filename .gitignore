@@ -1,0 +1,2 @@
+# exclude Gradle build directories
+**/build/

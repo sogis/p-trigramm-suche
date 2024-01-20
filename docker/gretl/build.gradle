@@ -1,32 +1,28 @@
 import ch.so.agi.gretl.tasks.*
 import ch.so.agi.gretl.api.TransferSet
 
-defaultTasks 'gpkgimport'
+defaultTasks 'createIdx'
 
-def db_uri = 'jdbc:postgresql://data-db/data'
+def db_uri_data = 'jdbc:postgresql://data-db/data'
+def db_uri_search = 'jdbc:postgresql://search-db/search'
 def db_user = 'ddluser'
 def db_pass = 'ddluser'
 
-task gpkgimport(type: GpkgImport){
-    database = [db_uri, db_user, db_pass]
-    schemaName = 'public'
-    srcTableName = 'adr'
-    dstTableName = 'adresse'
-    dataFile = "$buildDir/adr.gpkg"
+task createTbl(type: SqlExecutor){
+    database = [db_uri_search, db_user, db_pass]
+    sqlFiles = ['schema/words_tbl.sql','schema/features_tbl.sql']
 }
 
-/*
-task deleteAppData(type: SqlExecutor, dependsOn: downloadAppXtf){
-    database = [dbUriEdit, dbUserEdit, dbPwdEdit]
-    sqlParameters = [dbSchema:schemaNameEdit]
-    sqlFiles = ['deleteAppData.sql']
-}
-
-task writeToPub(type: Db2Db, dependsOn: importAppData){ 
-    sourceDb = [dbUriEdit, dbUserEdit, dbPwdEdit]
-    targetDb = [dbUriPub, dbUserPub, dbPwdPub]
+task loadTbl(type: Db2Db, dependsOn: createTbl){ 
+    sourceDb = [db_uri_data, db_user, db_pass]
+    targetDb = [db_uri_search, db_user, db_pass]
     transferSets = [
-        new TransferSet('abbaustelle.sql', 'afu_abbaustellen_pub_v2.abbaustelle', true)
+        //new TransferSet('data/adr_words.sql', 'public.words', false)
+        new TransferSet('data/adr_features.sql', 'public.features', false)
     ];
 }
-*/
+
+task createIdx(type: SqlExecutor, dependsOn: loadTbl){
+    database = [db_uri_search, db_user, db_pass]
+    sqlFiles = ['schema/words_idx.sql','schema/features_idx.sql']
+}

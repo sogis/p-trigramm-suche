@@ -10,19 +10,19 @@ def db_pass = 'ddluser'
 
 task createTbl(type: SqlExecutor){
     database = [db_uri_search, db_user, db_pass]
-    sqlFiles = ['schema/words_tbl.sql','schema/features_tbl.sql']
+    sqlFiles = ['schema/layer_tbl.sql']
 }
 
 task loadTbl(type: Db2Db, dependsOn: createTbl){ 
     sourceDb = [db_uri_data, db_user, db_pass]
     targetDb = [db_uri_search, db_user, db_pass]
     transferSets = [
-        //new TransferSet('data/adr_words.sql', 'public.words', false)
-        new TransferSet('data/adr_features.sql', 'public.features', false)
+        //new TransferSet('data/adr_features.sql', 'public.features', false),
+        new TransferSet('data/layer.sql', 'public.layer', true)
     ];
 }
 
 task createIdx(type: SqlExecutor, dependsOn: loadTbl){
     database = [db_uri_search, db_user, db_pass]
-    sqlFiles = ['schema/words_idx.sql','schema/features_idx.sql']
+    sqlFiles = ['schema/layer_idx.sql']
 }

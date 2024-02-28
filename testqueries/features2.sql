@@ -4,7 +4,7 @@ query_words AS (
   SELECT 
     *
   FROM (
-    VALUES ('solo', 'istra')
+    VALUES ('moosa', '6')
   ) t(q1, q2)
 ),
 
@@ -21,20 +21,20 @@ query AS (
       indexed LIKE '%' || q1 || '%'
     AND
       indexed LIKE '%' || q2 || '%'
+    AND 
+      dataset_id IN (7)
+    AND 
+      similarity(q1, indexed)  > 0
+    AND 
+      similarity(q2, indexed)  > 0
+  LIMIT 
+    50
 )
   
 SELECT 
   * 
 FROM
   query
-WHERE 
-    dataset_id IN (7)
-  AND 
-    sml1 > 0
-  AND 
-    sml2 > 0
 ORDER BY 
   sml1 + sml2 DESC
-LIMIT 
-  50
 ;

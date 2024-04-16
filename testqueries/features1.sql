@@ -2,32 +2,32 @@ WITH
 
 query_words AS (
   SELECT 
-    *
+    lower(q1) AS q1
   FROM (
-    VALUES ('tan')
+    VALUES ('osstr') -- hier teststring eingeben 
   ) t(q1)
 ),
 
 query AS (
   SELECT 
-    indexed,
-    dataset_id,
-    similarity(q1, indexed) AS sml1
+    anzeige,
+    layer_ident,
+    similarity(q1, suchbegriffe) AS sml1
   FROM 
-    features,
+    agi_suchindex_v1.feature,
     query_words
   WHERE 
-      indexed LIKE '%' || q1 || '%'
+      suchbegriffe LIKE '%' || q1 || '%'
     AND 
-      dataset_id IN (7)
+      layer_ident IN ('ch.so.agi.gemeindegrenzen.3')
     AND 
-      similarity(q1, indexed)  > 0
+      similarity(q1, suchbegriffe)  > 0
   LIMIT 
-    50
+    200
 )
   
 SELECT 
-  * 
+  *
 FROM
   query
 ORDER BY 

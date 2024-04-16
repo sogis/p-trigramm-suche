@@ -3,26 +3,43 @@ import ch.so.agi.gretl.api.TransferSet
 
 defaultTasks 'createIdx'
 
-def db_uri_data = 'jdbc:postgresql://data-db/data'
-def db_uri_search = 'jdbc:postgresql://search-db/search'
-def db_user = 'ddluser'
-def db_pass = 'ddluser'
+def dbSearch = ['jdbc:postgresql://search-db/search', 'ddluser', 'ddluser']
+def dbSearchSchema = 'agi_suchindex_v1'
 
-task createTbl(type: SqlExecutor){
-    database = [db_uri_search, db_user, db_pass]
-    sqlFiles = ['schema/layer_tbl.sql']
+def dbPub = [dbUriPubP, dbUserP, dbPwdP]
+
+task dropSchema(type: SqlExecutor){
+    sqlParameters = [db_schema:dbSearchSchema]
+    database = dbSearch
+    sqlFiles = ['schema/schema_drop.sql']
 }
 
-task loadTbl(type: Db2Db, dependsOn: createTbl){ 
-    sourceDb = [db_uri_data, db_user, db_pass]
-    targetDb = [db_uri_search, db_user, db_pass]
+task createSchema(type: Ili2pgImportSchema, dependsOn: dropSchema){
+    database = dbSearch
+    models = "SO_AGI_Suchindex_20240415"
+    dbschema = dbSearchSchema
+    modeldir = "$projectDir/schema"
+    createscript = "$projectDir/schema/iliCreateSchema.sql"
+}
+
+task loadFeatures(type: Db2Db, dependsOn: createSchema){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
     transferSets = [
-        new TransferSet('data/adr_features.sql', 'public.features', false),
-        new TransferSet('data/layer.sql', 'public.layer', true)
+        new TransferSet('data/adr_features.sql', dbSearchSchema + '.feature', false)
     ];
 }
 
-task createIdx(type: SqlExecutor, dependsOn: loadTbl){
-    database = [db_uri_search, db_user, db_pass]
-    sqlFiles = ['schema/layer_idx.sql', 'schema/features_idx.sql']
+task loadLayers(type: Db2Db, dependsOn: loadFeatures){ 
+    sourceDb = dbSearch
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('data/layer.sql', dbSearchSchema + '.ebene', false)
+    ];
+}
+
+task createIdx(type: SqlExecutor, dependsOn: loadLayers){
+    database = dbSearch
+    sqlParameters = [db_schema:dbSearchSchema]
+    sqlFiles = ['schema/schema_idx.sql']
 }

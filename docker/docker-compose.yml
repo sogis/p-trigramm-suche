@@ -9,30 +9,9 @@ services:
       - type: bind
         source: .
         target: /home/gradle/project
-  data-db:
-    image: bitnami/postgresql:14.8.0-debian-11-r74
-    environment:
-      POSTGRESQL_DATABASE: data
-      POSTGRESQL_USERNAME: ddluser
-      POSTGRESQL_PASSWORD: ddluser
-      POSTGRESQL_USERNAME_2: dmluser
-      POSTGRESQL_PASSWORD_2: dmluser
-      POSTGRESQL_POSTGRES_PASSWORD: secret
-      POSTGRESQL_INITSCRIPTS_USERNAME: postgres
-      POSTGRESQL_INITSCRIPTS_PASSWORD: secret
-      #POSTGRESQL_INITDB_ARGS: --locale=de_CH.UTF-8
-    ports:
-      - "54325:5432"
-    volumes:
       - type: bind
-        source: ./docker-compose/preinitdb.d
-        target: /docker-entrypoint-preinitdb.d
-      - type: bind
-        source: ./docker-compose/initdb.d
-        target: /docker-entrypoint-initdb.d
-      - type: volume
-        source: pgdat_data
-        target: /bitnami/postgresql
+        source: $HOME/gretljobs.properties
+        target: /home/gradle/.gradle/gradle.properties
   search-db:
     image: bitnami/postgresql:14.8.0-debian-11-r74
     environment:
@@ -44,7 +23,6 @@ services:
       POSTGRESQL_POSTGRES_PASSWORD: secret
       POSTGRESQL_INITSCRIPTS_USERNAME: postgres
       POSTGRESQL_INITSCRIPTS_PASSWORD: secret
-      #POSTGRESQL_INITDB_ARGS: --locale=de_CH.UTF-8
     ports:
       - "54326:5432"
     volumes:
@@ -58,5 +36,4 @@ services:
         source: pgdat_search
         target: /bitnami/postgresql
 volumes:
-  pgdat_data:
   pgdat_search:

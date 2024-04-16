@@ -2,37 +2,39 @@ WITH
 
 query_words AS (
   SELECT 
-    *
+    lower(q1) AS q1,
+    lower(q2) AS q2
   FROM (
-    VALUES ('moosa', '6')
+    VALUES ('osstr', '6') -- hier teststrings eingeben 
   ) t(q1, q2)
 ),
 
 query AS (
   SELECT 
-    indexed,
-    dataset_id,
-    similarity(q1, indexed) AS sml1,
-    similarity(q2, indexed) AS sml2
+    anzeige,
+    layer_ident,
+    similarity(q1, suchbegriffe) AS sml1,
+    similarity(q2, suchbegriffe) AS sml2
   FROM 
-    features,
+    agi_suchindex_v1.feature,
     query_words
   WHERE 
-      indexed LIKE '%' || q1 || '%'
+      suchbegriffe LIKE '%' || q1 || '%'
     AND
-      indexed LIKE '%' || q2 || '%'
+      suchbegriffe LIKE '%' || q2 || '%'
     AND 
-      dataset_id IN (7)
+      layer_ident IN ('ch.so.agi.gemeindegrenzen.3')
     AND 
-      similarity(q1, indexed)  > 0
+      similarity(q1, suchbegriffe)  > 0
     AND 
-      similarity(q2, indexed)  > 0
+      similarity(q2, suchbegriffe)  > 0
   LIMIT 
-    50
+    200
 )
   
 SELECT 
-  * 
+  *,
+  sml1 + sml2 AS sml_sum
 FROM
   query
 ORDER BY 

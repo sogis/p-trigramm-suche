@@ -1,31 +1,22 @@
-# Schritte
+# POC Suche mittels pg_trgm
 
-## Import Features
+Ziel des POC (Proof of Concept) war, die Performance und Treffgenauigkeit einer Implementation der "Volltextsuche" mittels der PostgreSQL Extension pg_trgm zu untersuchen. Es handelt sich dabei nicht um eine Volltextsuche im klassischen Sinn, in welcher Suchbegriffe auf die jeweiligen Wortstämme "referenziert" werden. Auch auf "Autokorrektur" der Sucheingaben wird bewusst verzichtet.
 
-Adressen aus geopackage mittels QGIS Database-Manager in data db importiert.
+Das Resultat ist sowohl bezüglich Performance und Treffgenauigkeit sehr überzeugend. So werden bei einem Umfang der Indextabelle von gut einer Million Zeilen treffende Resultate in 0 - 50 ms zurückgegeben.
 
-## Import Layers
+## Index-Tabellen
 
-Aus der Simi-View solr_layer_base2_v. Entspricht solr_layer_base_v, bis auf das angepasste CTE solr_record:
+Im POC werden alle zu durchsuchenden Features (aus vielen unterschiedlichen Ebenen) in eine gemeinsame Indextabelle "feature" geladen. Die Suche nach GIS-Ebenen (mittels Metadaten) erfolgt über die Indextabelle "ebene".
 
-        solr_record AS (
-        SELECT 
-            json_build_array(dp_typ, identifier::TEXT)::text AS id,
-            concat_ws(', ', title, synonyms) AS search_1_stem,
-            concat_ws(', ', description, amt_kurz, amt_name, keywords, titles_c, synonyms_c) AS search_2_stem,
-            concat_ws(', ', keywords_c, description_c) AS search_3_stem,
-            title AS display,
-            json_arr::text AS dset_children,
-            dprod_has_info AS dset_info,
-            CASE
-            WHEN identifier IN ('ch.so.agi.hintergrundkarte_sw','ch.so.agi.hintergrundkarte_farbig','ch.so.agi.hintergrundkarte_ortho') THEN 'background'
-            ELSE 'foreground'
-            END AS facet
-        FROM 
-            dp_published dp
-        LEFT JOIN
-            prodlist_children_bgkorr c ON dp.dp_id = c.pl_id
-        JOIN
-            dp_amt a ON dp.dp_id = a.dp_id
-        )
+Aus dem INTERLIS-Modell abgeleitetes DDL-Skript zur Erstellung der Tabellen: [iliCreateSchema.sql](./docker/gretl/schema/iliCreateSchema.sql)
 
+## Test-Queries
+
+Diese befinden sich im Ordner [testqueries/](./testqueries/).
+
+Die Nummern in den Dateinamen beziehen sich dabei immer auf die simulierte Anzahl Begriffe der Benutzereingabe.
+
+## Index-Befüllung
+
+Im POC wie auch später im produktiven Betrieb werden die Index-Tabellen mittels [GRETL](https://github.com/sogis/gretl) "befüllt".
+Die entsprechenden ETL-Skripte liegen im Ordner [gretl/](./docker/gretl/).

@@ -37,7 +37,7 @@ VERSION "2024-04-15"  =
 
       /** Trigram indexierte Begriffe, über welche das Feature gesucht wird
       */
-      Suchbegriffe : MANDATORY TEXT;
+      Suchbegriffe : MANDATORY MTEXT;
 
       /** Anzeige des Features im Suchresultat
       */
@@ -66,7 +66,7 @@ VERSION "2024-04-15"  =
       /** Bei Ebenengruppen: Json-Array der Kind-Ebenen.
       * NULL Ebenen ohne explizite Unter-Ebenen (Datasetview, Facadelayer)
       */
-      Unter_Ebenen : TEXT;
+      Unter_Ebenen : MTEXT;
 
       /** Ist die Ebene im Web GIS nicht angebotene eine Hintegrundebene?
       */
@@ -78,15 +78,15 @@ VERSION "2024-04-15"  =
 
       /** Trigram indexierte Begriffe der Priorität 1
       */
-      Suchbegriffe_P1 : MANDATORY TEXT;
+      Suchbegriffe_P1 : MANDATORY MTEXT;
 
       /** Trigram indexierte Begriffe der Priorität 2
       */
-      Suchbegriffe_P2 : MANDATORY TEXT;
+      Suchbegriffe_P2 : MANDATORY MTEXT;
 
       /** Trigram indexierte Begriffe der Priorität 3
       */
-      Suchbegriffe_P3 : MANDATORY TEXT;
+      Suchbegriffe_P3 : MANDATORY MTEXT;
       
     END Ebene;
 

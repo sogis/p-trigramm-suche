@@ -8,7 +8,7 @@ Das Resultat ist sowohl bezüglich Performance und Treffgenauigkeit sehr überze
 
 Im POC werden alle zu durchsuchenden Features (aus vielen unterschiedlichen Ebenen) in eine gemeinsame Indextabelle "feature" geladen. Die Suche nach GIS-Ebenen (mittels Metadaten) erfolgt über die Indextabelle "ebene".
 
-Aus dem INTERLIS-Modell abgeleitetes DDL-Skript zur Erstellung der Tabellen: [iliCreateSchema.sql](./docker/gretl/schema/iliCreateSchema.sql)
+Aus dem INTERLIS-Modell [SO_AGI_Suchindex_20240415.ili](./docker/gretl/schema/SO_AGI_Suchindex_20240415.ili) abgeleitetes DDL-Skript zur Erstellung der Tabellen: [iliCreateSchema.sql](./docker/gretl/schema/iliCreateSchema.sql)
 
 Die für die Performance entscheidenden Trigram-Indexe sind in der Datei [schema_idx.sql](./docker/gretl/schema/schema_idx.sql) definiert.
 

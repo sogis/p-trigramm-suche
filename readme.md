@@ -10,7 +10,7 @@ Im POC werden alle zu durchsuchenden Features (aus vielen unterschiedlichen Eben
 
 Aus dem INTERLIS-Modell [SO_AGI_Suchindex_20240415.ili](./docker/gretl/schema/SO_AGI_Suchindex_20240415.ili) abgeleitetes DDL-Skript zur Erstellung der Tabellen: [iliCreateSchema.sql](./docker/gretl/schema/iliCreateSchema.sql)
 
-Die für die Performance entscheidenden Trigram-Indexe sind in der Datei [schema_idx.sql](./docker/gretl/schema/schema_idx.sql) definiert.
+Die für die Performance entscheidenden Trigramm-Indexe sind in der Datei [schema_idx.sql](./docker/gretl/schema/schema_idx.sql) definiert.
 
 ## Test-Queries
 

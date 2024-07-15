@@ -258,7 +258,7 @@ VERSION "2024-04-15"  =
 
   END Indexe;
 
-END SO_AGI_Suchindex_20240415.','2024-04-17 14:18:40.839');
+END SO_AGI_Suchindex_20240415.','2024-07-15 09:40:49.863');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.interlis.ili2c.ilidirs','/home/gradle/project/gretl/schema');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.ehi.ili2db.arrayTrafo','coalesce');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.ehi.ili2db.localisedTrafo','expand');

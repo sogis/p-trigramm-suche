@@ -26,7 +26,7 @@ task loadFeatures(type: Db2Db, dependsOn: createSchema){
     sourceDb = dbPub
     targetDb = dbSearch
     transferSets = [
-        new TransferSet('data/adr_features.sql', dbSearchSchema + '.feature', false)
+        new TransferSet('data/solr_features.sql', dbSearchSchema + '.feature', false)
     ];
 }
 

@@ -136,8 +136,8 @@ INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target)
 INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature.Anzeige','anzeige','feature',NULL);
 INSERT INTO agi_suchindex_v1.T_ILI2DB_TRAFO (iliname,tag,setting) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature','ch.ehi.ili2db.inheritance','newClass');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_TRAFO (iliname,tag,setting) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene','ch.ehi.ili2db.inheritance','newClass');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_INHERITANCE (thisClass,baseClass) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature',NULL);
 INSERT INTO agi_suchindex_v1.T_ILI2DB_INHERITANCE (thisClass,baseClass) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_INHERITANCE (thisClass,baseClass) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature',NULL);
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'id_in_hochkomma','ch.ehi.ili2db.typeKind','BOOLEAN');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p2','ch.ehi.ili2db.textKind','MTEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p2','ch.ehi.ili2db.typeKind','MTEXT');
@@ -258,7 +258,7 @@ VERSION "2024-04-15"  =
 
   END Indexe;
 
-END SO_AGI_Suchindex_20240415.','2024-07-15 09:40:49.863');
+END SO_AGI_Suchindex_20240415.','2024-07-15 13:00:37.057');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.interlis.ili2c.ilidirs','/home/gradle/project/gretl/schema');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.ehi.ili2db.arrayTrafo','coalesce');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.ehi.ili2db.localisedTrafo','expand');

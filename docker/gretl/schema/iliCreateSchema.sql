@@ -1,9 +1,9 @@
 CREATE SEQUENCE agi_suchindex_v1.t_ili2db_seq;;
--- SO_AGI_Suchindex_20240415.Indexe.Feature
+-- SO_AGI_Suchindex_20240806.Indexe.Feature
 CREATE TABLE agi_suchindex_v1.feature (
   T_Id bigint PRIMARY KEY DEFAULT nextval('agi_suchindex_v1.t_ili2db_seq')
-  ,T_Ili_Tid uuid NULL DEFAULT uuid_generate_v4()
-  ,identifier varchar(255) NOT NULL
+  ,id_spalten_name varchar(255) NOT NULL
+  ,id_feature varchar(255) NOT NULL
   ,id_in_hochkomma boolean NOT NULL
   ,layer_ident varchar(255) NOT NULL
   ,suchbegriffe text NOT NULL
@@ -13,7 +13,8 @@ CREATE TABLE agi_suchindex_v1.feature (
 ;
 COMMENT ON TABLE agi_suchindex_v1.feature IS 'Gemeinsamer GDI-weiter Index aller suchbaren Features.
 Bei Features ohne Geometrie ist das Attribut "Ausdehnung" null.';
-COMMENT ON COLUMN agi_suchindex_v1.feature.identifier IS 'Innerhalb Layer eindeutige und stabile "ID" des Feature (z.B. t_ili_id)';
+COMMENT ON COLUMN agi_suchindex_v1.feature.id_spalten_name IS 'Spaltenname der "ID" des Feature (z.B. "t_id")';
+COMMENT ON COLUMN agi_suchindex_v1.feature.id_feature IS 'Innerhalb Layer eindeutige und stabile "ID" des Feature (z.B. Value von t_id)';
 COMMENT ON COLUMN agi_suchindex_v1.feature.id_in_hochkomma IS 'Muss die Feature-ID dem Dataservice in Hochkomma übergeben werden?';
 COMMENT ON COLUMN agi_suchindex_v1.feature.layer_ident IS 'Identifier des Layers (Bsp. ch.so.agi.gemeindegrenzen)';
 COMMENT ON COLUMN agi_suchindex_v1.feature.suchbegriffe IS 'Trigram indexierte Begriffe, über welche das Feature gesucht wird';
@@ -21,10 +22,9 @@ COMMENT ON COLUMN agi_suchindex_v1.feature.anzeige IS 'Anzeige des Features im S
 COMMENT ON COLUMN agi_suchindex_v1.feature.ausdehnung IS 'Ausdehnung notiert als Json-Array.
 Gemäss Geojson-Spez für bbox, aber in EPSG:2056.
 Beispiel: [2630403,1237579,2633431,1240412]';
--- SO_AGI_Suchindex_20240415.Indexe.Ebene
+-- SO_AGI_Suchindex_20240806.Indexe.Ebene
 CREATE TABLE agi_suchindex_v1.ebene (
   T_Id bigint PRIMARY KEY DEFAULT nextval('agi_suchindex_v1.t_ili2db_seq')
-  ,T_Ili_Tid uuid NULL DEFAULT uuid_generate_v4()
   ,identifier varchar(255) NOT NULL
   ,anzeige varchar(255) NOT NULL
   ,unter_ebenen text NULL
@@ -95,7 +95,7 @@ CREATE TABLE agi_suchindex_v1.T_ILI2DB_ATTRNAME (
   ,SqlName varchar(1024) NOT NULL
   ,ColOwner varchar(1024) NOT NULL
   ,Target varchar(1024) NULL
-  ,PRIMARY KEY (SqlName,ColOwner)
+  ,PRIMARY KEY (ColOwner,SqlName)
 )
 ;
 CREATE TABLE agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (
@@ -116,43 +116,43 @@ CREATE UNIQUE INDEX T_ILI2DB_DATASET_datasetName_key ON agi_suchindex_v1.T_ILI2D
 ;
 CREATE UNIQUE INDEX T_ILI2DB_MODEL_modelName_iliversion_key ON agi_suchindex_v1.T_ILI2DB_MODEL (modelName,iliversion)
 ;
-CREATE UNIQUE INDEX T_ILI2DB_ATTRNAME_SqlName_ColOwner_key ON agi_suchindex_v1.T_ILI2DB_ATTRNAME (SqlName,ColOwner)
+CREATE UNIQUE INDEX T_ILI2DB_ATTRNAME_ColOwner_SqlName_key ON agi_suchindex_v1.T_ILI2DB_ATTRNAME (ColOwner,SqlName)
 ;
-INSERT INTO agi_suchindex_v1.T_ILI2DB_CLASSNAME (IliName,SqlName) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature','feature');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_CLASSNAME (IliName,SqlName) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene','ebene');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature.Layer_Ident','layer_ident','feature',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Anzeige','anzeige','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature.Ausdehnung','ausdehnung','feature',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Identifier','identifier','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Ist_Hintergrund','ist_hintergrund','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Unter_Ebenen','unter_ebenen','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature.Suchbegriffe','suchbegriffe','feature',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Hat_Beschreibung','hat_beschreibung','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Suchbegriffe_P3','suchbegriffe_p3','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Suchbegriffe_P2','suchbegriffe_p2','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene.Suchbegriffe_P1','suchbegriffe_p1','ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature.Identifier','identifier','feature',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature.ID_in_Hochkomma','id_in_hochkomma','feature',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature.Anzeige','anzeige','feature',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_TRAFO (iliname,tag,setting) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature','ch.ehi.ili2db.inheritance','newClass');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_TRAFO (iliname,tag,setting) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene','ch.ehi.ili2db.inheritance','newClass');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_INHERITANCE (thisClass,baseClass) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Ebene',NULL);
-INSERT INTO agi_suchindex_v1.T_ILI2DB_INHERITANCE (thisClass,baseClass) VALUES ('SO_AGI_Suchindex_20240415.Indexe.Feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_CLASSNAME (IliName,SqlName) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene','ebene');
+INSERT INTO agi_suchindex_v1.T_ILI2DB_CLASSNAME (IliName,SqlName) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature','feature');
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature.Anzeige','anzeige','feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature.Suchbegriffe','suchbegriffe','feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Anzeige','anzeige','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Identifier','identifier','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Suchbegriffe_P1','suchbegriffe_p1','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Suchbegriffe_P2','suchbegriffe_p2','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature.Layer_Ident','layer_ident','feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature.Ausdehnung','ausdehnung','feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Suchbegriffe_P3','suchbegriffe_p3','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature.ID_Feature','id_feature','feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Hat_Beschreibung','hat_beschreibung','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Unter_Ebenen','unter_ebenen','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature.ID_Spalten_Name','id_spalten_name','feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature.ID_in_Hochkomma','id_in_hochkomma','feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_ATTRNAME (IliName,SqlName,ColOwner,Target) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene.Ist_Hintergrund','ist_hintergrund','ebene',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_TRAFO (iliname,tag,setting) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene','ch.ehi.ili2db.inheritance','newClass');
+INSERT INTO agi_suchindex_v1.T_ILI2DB_TRAFO (iliname,tag,setting) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature','ch.ehi.ili2db.inheritance','newClass');
+INSERT INTO agi_suchindex_v1.T_ILI2DB_INHERITANCE (thisClass,baseClass) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Feature',NULL);
+INSERT INTO agi_suchindex_v1.T_ILI2DB_INHERITANCE (thisClass,baseClass) VALUES ('SO_AGI_Suchindex_20240806.Indexe.Ebene',NULL);
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'id_in_hochkomma','ch.ehi.ili2db.typeKind','BOOLEAN');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p2','ch.ehi.ili2db.textKind','MTEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p2','ch.ehi.ili2db.typeKind','MTEXT');
+INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'id_feature','ch.ehi.ili2db.typeKind','TEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'hat_beschreibung','ch.ehi.ili2db.typeKind','BOOLEAN');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p3','ch.ehi.ili2db.textKind','MTEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p3','ch.ehi.ili2db.typeKind','MTEXT');
+INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'id_spalten_name','ch.ehi.ili2db.typeKind','TEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p1','ch.ehi.ili2db.textKind','MTEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'suchbegriffe_p1','ch.ehi.ili2db.typeKind','MTEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene','ebene','ist_hintergrund','ch.ehi.ili2db.enumDomain','INTERLIS.BOOLEAN');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature','feature','id_in_hochkomma','ch.ehi.ili2db.enumDomain','INTERLIS.BOOLEAN');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'identifier','ch.ehi.ili2db.typeKind','TEXT');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'T_Ili_Tid','ch.ehi.ili2db.oidDomain','INTERLIS.UUIDOID');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene','ebene','hat_beschreibung','ch.ehi.ili2db.enumDomain','INTERLIS.BOOLEAN');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'identifier','ch.ehi.ili2db.typeKind','TEXT');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'T_Ili_Tid','ch.ehi.ili2db.oidDomain','INTERLIS.UUIDOID');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'unter_ebenen','ch.ehi.ili2db.textKind','MTEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('ebene',NULL,'unter_ebenen','ch.ehi.ili2db.typeKind','MTEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'ausdehnung','ch.ehi.ili2db.typeKind','TEXT');
@@ -164,7 +164,7 @@ INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,
 INSERT INTO agi_suchindex_v1.T_ILI2DB_COLUMN_PROP (tablename,subtype,columnname,tag,setting) VALUES ('feature',NULL,'anzeige','ch.ehi.ili2db.typeKind','TEXT');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_TABLE_PROP (tablename,tag,setting) VALUES ('ebene','ch.ehi.ili2db.tableKind','CLASS');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_TABLE_PROP (tablename,tag,setting) VALUES ('feature','ch.ehi.ili2db.tableKind','CLASS');
-INSERT INTO agi_suchindex_v1.T_ILI2DB_MODEL (filename,iliversion,modelName,content,importDate) VALUES ('SO_AGI_Suchindex_20240415.ili','2.3','SO_AGI_Suchindex_20240415','INTERLIS 2.3;
+INSERT INTO agi_suchindex_v1.T_ILI2DB_MODEL (filename,iliversion,modelName,content,importDate) VALUES ('SO_AGI_Suchindex_20240806.ili','2.3','SO_AGI_Suchindex_20240806','INTERLIS 2.3;
 
 /** ! 
  * !! Definiert das Schema der Index-Tabellen für den Such-Service.
@@ -173,15 +173,16 @@ INSERT INTO agi_suchindex_v1.T_ILI2DB_MODEL (filename,iliversion,modelName,conte
  * !! Version    | wer | Änderung
  * !!------------------------------------------------------------------------------
  * !! 2024-04-15 | Jek | Erstellt
+ * !! 2024-08-06 | Chb | Anpassungen Featuretabelle
  * !!==============================================================================
  */
 !!@ technicalContact=mailto:agi@so.ch
-MODEL SO_AGI_Suchindex_20240415 (de)
+MODEL SO_AGI_Suchindex_20240806 (de)
 AT "http://www.geo.so.ch/models/AGI"
-VERSION "2024-04-15"  =
+VERSION "2024-08-06"  =
 
   TOPIC Indexe =
-    OID AS INTERLIS.UUIDOID;
+    
 
     DOMAIN
 
@@ -189,10 +190,15 @@ VERSION "2024-04-15"  =
      *  Bei Features ohne Geometrie ist das Attribut "Ausdehnung" null.
      */
     CLASS Feature =
-      /** Innerhalb Layer eindeutige und stabile "ID" des Feature (z.B. t_ili_id)
+    
+      /** Spaltenname der "ID" des Feature (z.B. "t_id")
       */
-      Identifier : MANDATORY TEXT*255;
+      ID_Spalten_Name : MANDATORY TEXT*255;
 
+      /** Innerhalb Layer eindeutige und stabile "ID" des Feature (z.B. Value von t_id)
+      */
+      ID_Feature : MANDATORY TEXT*255;
+    
       /** Muss die Feature-ID dem Dataservice in Hochkomma übergeben werden?
       */
       ID_in_Hochkomma : MANDATORY BOOLEAN;
@@ -258,7 +264,7 @@ VERSION "2024-04-15"  =
 
   END Indexe;
 
-END SO_AGI_Suchindex_20240415.','2024-07-15 13:00:37.057');
+END SO_AGI_Suchindex_20240806.','2024-08-06 10:12:28.182');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.interlis.ili2c.ilidirs','/home/gradle/project/gretl/schema');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.ehi.ili2db.arrayTrafo','coalesce');
 INSERT INTO agi_suchindex_v1.T_ILI2DB_SETTINGS (tag,setting) VALUES ('ch.ehi.ili2db.localisedTrafo','expand');

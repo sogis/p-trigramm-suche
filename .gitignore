@@ -1,2 +1,4 @@
 # exclude Gradle build directories
 **/build/
+docker/gretl/.gradle/
+docker/gretl/build_private.gradle

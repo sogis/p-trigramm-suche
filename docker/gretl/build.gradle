@@ -16,7 +16,7 @@ task dropSchema(type: SqlExecutor){
 
 task createSchema(type: Ili2pgImportSchema, dependsOn: dropSchema){
     database = dbSearch
-    models = "SO_AGI_Suchindex_20240415"
+    models = "SO_AGI_Suchindex_20240806"
     dbschema = dbSearchSchema
     modeldir = "$projectDir/schema"
     createscript = "$projectDir/schema/iliCreateSchema.sql"

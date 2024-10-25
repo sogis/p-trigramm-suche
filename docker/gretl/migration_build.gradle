@@ -1,0 +1,266 @@
+import ch.so.agi.gretl.tasks.*
+import ch.so.agi.gretl.api.TransferSet 
+
+//defaultTasks 'createIdx'
+//defaultTasks 'loadFeatures1','loadFeatures2','loadFeatures3','loadFeatures4','loadFeatures5','loadFeatures6','loadFeatures7'
+defaultTasks 'loadAllFeatures' //task aggregation
+
+def dbHost = 'geodb.rootso.org'
+def dbPub = ['jdbc:postgresql://' + dbHost +'/pub', 'user', 'pwd']
+def dbSearch = ['jdbc:postgresql://search-db/search', 'ddluser', 'ddluser']
+def dbSearchSchema = 'agi_suchindex_v1_task'
+
+//--------------------
+// SCHEMA
+
+task dropSchema(type: SqlExecutor){
+    sqlParameters = [db_schema:dbSearchSchema]
+    database = dbSearch
+    sqlFiles = ['schema/schema_drop.sql']
+}
+
+task createSchema(type: Ili2pgImportSchema, dependsOn: dropSchema){
+    database = dbSearch
+    models = "SO_AGI_Suchindex_20240806"
+    dbschema = dbSearchSchema
+    modeldir = "$projectDir/schema"
+    createscript = "$projectDir/schema/iliCreateSchema.sql"
+}
+
+task createIdx(type: SqlExecutor, dependsOn: createSchema){
+    database = dbSearch
+    sqlParameters = [
+        db_schema:dbSearchSchema]
+    sqlFiles = ['schema/schema_idx.sql']
+}
+
+//--------------------
+// DATA Aggregations :
+
+task deleteAllFeatures {
+    dependsOn tasks.matching { it.name.startsWith('deleteFeatures') }
+
+    doLast {
+        println("### LOG: All deleteFeatures tasks executed.")
+    }
+}
+
+task loadAllFeatures (dependsOn: deleteAllFeatures){
+    dependsOn tasks.matching { it.name.startsWith('loadFeatures') }
+
+    doLast {
+        println("### LOG: All loadFeatures tasks executed.")
+    }
+}
+
+//--------------------
+//--------------------
+// DATA
+
+def layerName = 'ch.so.ada.archaeologie.flaechenfundstellen'
+
+task deleteFeatures1(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures1(type: Db2Db, dependsOn: deleteFeatures1){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+layerName = 'ch.so.ada.archaeologie.punktfundstellen'
+
+task deleteFeatures2(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures2(type: Db2Db, dependsOn: deleteFeatures2){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+layerName = 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt'
+
+task deleteFeatures3(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures3(type: Db2Db, dependsOn: deleteFeatures3){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+layerName = 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt'
+
+task deleteFeatures4(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures4(type: Db2Db, dependsOn: deleteFeatures4){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+layerName = 'ch.so.afu.asiatische_hornisse'
+
+task deleteFeatures5(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures5(type: Db2Db, dependsOn: deleteFeatures5){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+layerName = 'ch.so.afu.abbaustellen'
+
+task deleteFeatures6(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures6(type: Db2Db, dependsOn: deleteFeatures6){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+layerName = 'ch.so.afu.altlasten.standorte'
+
+task deleteFeatures7(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures7(type: Db2Db, dependsOn: deleteFeatures7){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+layerName = 'ch.so.afu.altlasten.standorte_geschuetzt'
+
+task deleteFeatures8(type: SqlExecutor){
+    database = dbSearch
+    String layerNameString = "'${layerName}'"
+    sqlParameters = [
+                        [layername: layerNameString, db_schema: dbSearchSchema]       
+                    ]    
+    sqlFiles = ['migration/deleteLayerFeatures.sql']
+}
+
+task loadFeatures8(type: Db2Db, dependsOn: deleteFeatures8){ 
+    sourceDb = dbPub
+    targetDb = dbSearch
+    transferSets = [
+        new TransferSet('migration/' + layerName +'.sql', dbSearchSchema + '.feature', false)
+    ];
+}
+
+//--------------------
+// DATA
+
+def layerNames = [
+    'ch.so.afu.gewaesserschutz_lw.standort_mit_erhebung',
+    'ch.so.afu.gewaesserschutz_lw.standort_ohne_erhebung',
+    'ch.so.afu.gewaesserschutz_lw.stall'
+]
+def loadFeaturesTasks = []
+
+layerNames.each { layerNamen ->
+
+    task "deleteFeatures_${layerNamen}"(type: SqlExecutor){
+        database = dbSearch
+        String layerNameString = "'${layerNamen}'"
+        sqlParameters = [
+                            [layername: layerNameString, db_schema: dbSearchSchema]       
+                        ]    
+        sqlFiles = ['migration/deleteLayerFeatures.sql']
+    }
+
+    def loadTask = task "loadFeatures_${layerNamen}"(type: Db2Db, dependsOn: "deleteFeatures_${layerNamen}"){ 
+        sourceDb = dbPub
+        targetDb = dbSearch
+        transferSets = [
+            new TransferSet('migration/' + layerNamen +'.sql', dbSearchSchema + '.feature', false)
+        ];
+    }
+
+    loadFeaturesTasks << loadTask
+}
+//defaultTasks (*loadFeaturesTasks.collect { it.name })
+
+

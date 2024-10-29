@@ -56,43 +56,66 @@ task loadAllFeatures (dependsOn: deleteAllFeatures){
 //--------------------
 //--------------------
 // DATA
+
 def loadFeaturesTasks = []
 def layerNames = []
-
-layerNames << 'ch.so.ada.archaeologie.flaechenfundstellen'
-layerNames << 'ch.so.ada.archaeologie.punktfundstellen'
-layerNames << 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt'
-layerNames << 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt'
-
-layerNames << 'ch.so.afu.asiatische_hornisse'
 
 layerNames << 'ch.so.afu.abbaustellen'
 
 layerNames << 'ch.so.afu.altlasten.standorte'
 layerNames << 'ch.so.afu.altlasten.standorte_geschuetzt'
 
-layerNames << 'ch.so.afu.gewaesserschutz_lw.standort_mit_erhebung'
-layerNames << 'ch.so.afu.gewaesserschutz_lw.standort_ohne_erhebung'
-layerNames << 'ch.so.afu.gewaesserschutz_lw.stall'
+layerNames << 'ch.so.ada.archaeologie.flaechenfundstellen'
+layerNames << 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt'
+layerNames << 'ch.so.ada.archaeologie.punktfundstellen'
+layerNames << 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt'
+
+layerNames << 'ch.so.afu.asiatische_hornisse'
 
 layerNames << 'ch.so.afu.bodeninformationen.bodenprofilstandorte'
 
-layerNames << 'ch.so.afu.geotope.quelle'
-layerNames << 'ch.so.afu.geotope.hoehle'
-layerNames << 'ch.so.afu.geotope.erratiker'
-layerNames << 'ch.so.afu.geotope.aufschluss'
-layerNames << 'ch.so.afu.geotope.landschaftsform'
-layerNames << 'ch.so.afu.geotope.fundstelle_grabung_geschuetzt'
-
 layerNames << 'ch.so.afu.fliessgewaesser.netz'
 
-layerNames = []
+layerNames << 'ch.so.afu.geotope.aufschluss'
+layerNames << 'ch.so.afu.geotope.erratiker'
+layerNames << 'ch.so.afu.geotope.fundstelle_grabung_geschuetzt'
+layerNames << 'ch.so.afu.geotope.hoehle'
+layerNames << 'ch.so.afu.geotope.landschaftsform'
+layerNames << 'ch.so.afu.geotope.quelle'
+
+layerNames << 'ch.so.afu.gewaesserschutz_lw.stall'
+layerNames << 'ch.so.afu.gewaesserschutz_lw.standort_mit_erhebung'
+layerNames << 'ch.so.afu.gewaesserschutz_lw.standort_ohne_erhebung'
+
+layerNames << 'ch.so.afu.wasserbewirtschaftung.fassung'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.fassung_geschuetzt'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung_geschuetzt'
 layerNames << 'ch.so.afu.wasserbewirtschaftung.quellen'
+////layerNames << 'ch.so.afu.gewaesserschutz_quellen' //?! Kopie von 'ch.so.afu.wasserbewirtschaftung.quellen'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.quellen_geschuetzt'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.sondierung'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.sondierung_geschuetzt'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.trinkwasserversorgung_geschuetzt'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.versickerungsschacht'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.versickerungsschacht_geschuetzt'
+layerNames << 'ch.so.afu.wasserbewirtschaftung.weitere_einbauten_geschuetzt'
 
-//layerNames << 'ch.so.afu.wasserbewirtschaftung.fassung'
-//layerNames << 'ch.so.afu.wasserbewirtschaftung.fassung_geschuetzt'
+layerNames << 'ch.so.afu.naturereigniskataster.basisinformation'
+layerNames << 'ch.afu.naturereigniskataster.prozessraum.sturz'
+layerNames << 'ch.afu.naturereigniskataster.prozessraum.wasser'
+
+layerNames << 'ch.so.agi.av.bodenbedeckung'
+layerNames << 'ch.so.agi.av.gebaeudeadressen.gebaeudeeingaenge'
+layerNames << 'ch.so.agi.av.grundstuecke.projektierte'
+layerNames << 'ch.so.agi.av.grundstuecke.rechtskraeftig'
+
+//layerNames = []
+//layerNames << ''
 
 
+
+//---------------
 // DATA TASKS
 
 layerNames.each { layerNamen ->
@@ -117,4 +140,3 @@ layerNames.each { layerNamen ->
     loadFeaturesTasks << loadTask
 }
 defaultTasks (*loadFeaturesTasks.collect { it.name })
-

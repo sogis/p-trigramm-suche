@@ -109,9 +109,15 @@ layerNames << 'ch.so.agi.av.bodenbedeckung'
 layerNames << 'ch.so.agi.av.gebaeudeadressen.gebaeudeeingaenge'
 layerNames << 'ch.so.agi.av.grundstuecke.projektierte'
 layerNames << 'ch.so.agi.av.grundstuecke.rechtskraeftig'
+layerNames << 'ch.so.agi.av.nomenklatur.flurnamen'
+layerNames << 'ch.so.agi.av.nomenklatur.gelaendenamen'
+
+layerNames << 'ch.so.agi.bezirksgrenzen'
+layerNames << 'ch.so.agi.gemeindegrenzen'
+
+layerNames << 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte'
 
 //layerNames = []
-//layerNames << ''
 
 
 

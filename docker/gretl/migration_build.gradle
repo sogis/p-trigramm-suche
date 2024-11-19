@@ -116,10 +116,24 @@ layerNames << 'ch.so.agi.bezirksgrenzen'
 layerNames << 'ch.so.agi.gemeindegrenzen'
 
 layerNames << 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte'
+layerNames << 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte_geschuetzt'
+
+layerNames << 'ch.so.arp.naturreservate.reservate'
+
+layerNames << 'ch.so.avt.kantonsstrassen_achsen'
+layerNames << 'ch.so.avt.kantonsstrassen_bezugspunkte'
+layerNames << 'ch.so.avt.oev.haltestellen'
+layerNames << 'ch.so.avt.verkehrszaehlstellen'
+
+layerNames << 'ch.so.awjf.bestandeskarte_wald_flaechen'
+layerNames << 'ch.so.awjf.gewaesser.fischereireviere'
+layerNames << 'ch.so.awjf.schutzwaldausscheidung'
+layerNames << 'ch.so.awjf.schutzwald_hauptgefahrenpotentiale'
+layerNames << 'ch.so.awjf.waldplan.waldeigentum'
+layerNames << 'ch.so.awjf.waldplan.waldfunktion'
+layerNames << 'ch.so.awjf.waldplan.waldplantyp'
 
 //layerNames = []
-
-
 
 //---------------
 // DATA TASKS

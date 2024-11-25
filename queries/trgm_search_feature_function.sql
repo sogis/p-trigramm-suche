@@ -1,6 +1,18 @@
+-- SELECT * 
+-- FROM agi_suchindex_v1.trgm_search_feature(
+--     ARRAY['Zuch', 'Kirch'], 
+--     ARRAY['ch.so.agi.av.gebaeudeadressen.gebaeudeeingaenge']
+-- );
+-- 
+-- SELECT * 
+-- FROM agi_suchindex_v1.trgm_search_feature(
+--     ARRAY['Zuch','Kirch'], 
+--     NULL
+-- );
+
 CREATE OR REPLACE FUNCTION agi_suchindex_v1.trgm_search_feature(
     search_terms TEXT[],          -- Array von Suchbegriffen
-    layer_filters TEXT[],         -- Array von Layernamen
+    layer_filters TEXT[],         -- Array von Layernamen, NULL für alle Layer
     limit_results INT DEFAULT 200 -- Maximalanzahl der Ergebnisse
 )
 RETURNS TABLE (
@@ -21,11 +33,11 @@ BEGIN
     -- Dynamische WHERE-Bedingungen für Suchbegriffe erstellen
     SELECT STRING_AGG(
         format(
-        	'(
-			suchbegriffe LIKE ''%%%s%%'' 
-			AND 
-			similarity(''%s'', suchbegriffe) > 0
-			)', lower(term), lower(term)),
+            '(
+            suchbegriffe LIKE ''%%%s%%'' 
+            AND 
+            similarity(''%s'', suchbegriffe) > 0
+            )', lower(term), lower(term)),
         ' AND '
     )
     INTO term_conditions
@@ -40,30 +52,40 @@ BEGIN
     FROM unnest(search_terms) AS term;
 
     -- Dynamische WHERE-Bedingungen für Layernamen erstellen
-    SELECT STRING_AGG(format('''%s''', layer), ', ')
-    INTO layer_condition
-    FROM unnest(layer_filters) AS layer;
-
+    IF array_length(layer_filters, 1) IS NOT NULL THEN
+        -- Wenn Layer-Filter angegeben sind
+        SELECT 
+            STRING_AGG(quote_literal(layer), ', ')
+        INTO 
+            layer_condition
+        FROM 
+               unnest(layer_filters) AS layer;
+        layer_condition := format('layer_ident IN (%s)', layer_condition);
+    ELSE
+        -- Wenn keine Layer-Filter (also NULL) angegeben sind, alle Layer einbeziehen
+        layer_condition := 'TRUE'; -- Bedingung ist immer wahr
+    END IF;
+   
     -- Dynamische SQL-Abfrage erstellen
     dynamic_query := format(
-    	'SELECT 
-        	anzeige::text AS anzeige, 
+        'SELECT 
+            anzeige::text AS anzeige, 
             layer_ident::text AS layer_ident, 
-			id_spalten_name::text AS id_spalten_name,
-			id_feature::text AS id_feature,
-			ausdehnung::text AS ausdehnung,
-			%s AS srid,
+            id_spalten_name::text AS id_spalten_name,
+            id_feature::text AS id_feature,
+            ausdehnung::text AS ausdehnung,
+            %s AS srid,
             %s AS sml
         FROM 
-			agi_suchindex_v1.feature
+            agi_suchindex_v1.feature
         WHERE 
-			layer_ident IN (%s) 
-           	AND 
-			%s
-     	ORDER BY 
-			sml DESC
-    	LIMIT 
-			%s',
+            %s 
+               AND 
+            %s
+         ORDER BY 
+            sml DESC
+        LIMIT 
+            %s',
         quote_literal('EPSG:2056'),
         similarity_calculation, -- Dynamische Similarity-Summe
         layer_condition,        -- Dynamische Layer-Bedingungen

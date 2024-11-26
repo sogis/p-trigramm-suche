@@ -1,7 +1,16 @@
--- SELECT * 
--- FROM agi_suchindex_v1.trgm_search_ebene(
---      ARRAY['Grund', 'wasser']
--- );
+-- Abfrage für Search-Service EBENE
+--
+--SELECT  
+--    anzeige AS display, 
+--    identifier AS dataproduct_id, 
+--    (hat_beschreibung = 't') AS has_info, 
+--    unter_ebenen AS sublayers, 
+--    sml
+--FROM 
+--    agi_suchindex_v1.trgm_search_ebene(
+--        ARRAY['Grund', 'wasser']
+--    );
+
 
 CREATE OR REPLACE FUNCTION agi_suchindex_v1.trgm_search_ebene(
     search_terms TEXT[],       		-- Array von Suchbegriffen

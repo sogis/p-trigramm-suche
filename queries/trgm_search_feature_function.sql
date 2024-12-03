@@ -71,10 +71,10 @@ BEGIN
         INTO
             layer_condition
         FROM
-               unnest(layer_filters) AS layer;
+            unnest(layer_filters) AS layer;
         layer_condition := format('layer_ident IN (%s)', layer_condition);
     ELSE
-        -- Wenn keine Layer-Filter (also NULL) angegeben sind, alle Layer einbeziehen
+        -- Wenn keine Layer-Filter (also NULL) angegeben sind: alle Layer einbeziehen
         layer_condition := 'TRUE'; -- Bedingung ist immer wahr
     END IF;
 

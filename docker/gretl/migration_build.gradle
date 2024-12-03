@@ -1,5 +1,5 @@
 import ch.so.agi.gretl.tasks.*
-import ch.so.agi.gretl.api.TransferSet 
+import ch.so.agi.gretl.api.TransferSet
 
 //defaultTasks 'createIdx'
 //defaultTasks 'loadFeatures'
@@ -83,6 +83,7 @@ layerNames << 'ch.so.afu.geotope.hoehle'
 layerNames << 'ch.so.afu.geotope.landschaftsform'
 layerNames << 'ch.so.afu.geotope.quelle'
 
+layerNames << 'ch.so.afu.gewaesserschutz.quellen'
 layerNames << 'ch.so.afu.gewaesserschutz_lw.stall'
 layerNames << 'ch.so.afu.gewaesserschutz_lw.standort_mit_erhebung'
 layerNames << 'ch.so.afu.gewaesserschutz_lw.standort_ohne_erhebung'
@@ -92,7 +93,7 @@ layerNames << 'ch.so.afu.wasserbewirtschaftung.fassung_geschuetzt'
 layerNames << 'ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung'
 layerNames << 'ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung_geschuetzt'
 layerNames << 'ch.so.afu.wasserbewirtschaftung.quellen'
-////layerNames << 'ch.so.afu.gewaesserschutz_quellen' //?! Kopie von 'ch.so.afu.wasserbewirtschaftung.quellen'
+
 layerNames << 'ch.so.afu.wasserbewirtschaftung.quellen_geschuetzt'
 layerNames << 'ch.so.afu.wasserbewirtschaftung.sondierung'
 layerNames << 'ch.so.afu.wasserbewirtschaftung.sondierung_geschuetzt'
@@ -106,6 +107,8 @@ layerNames << 'ch.afu.naturereigniskataster.prozessraum.sturz'
 layerNames << 'ch.afu.naturereigniskataster.prozessraum.wasser'
 
 layerNames << 'ch.so.agi.av.bodenbedeckung'
+layerNames << 'ch.so.agi.av.gb2av.controlling_mutationen'
+layerNames << 'ch.so.agi.av.gb2av.controlling_vollzugsmeldungen'
 layerNames << 'ch.so.agi.av.gebaeudeadressen.gebaeudeeingaenge'
 layerNames << 'ch.so.agi.av.grundstuecke.projektierte'
 layerNames << 'ch.so.agi.av.grundstuecke.rechtskraeftig'
@@ -117,6 +120,12 @@ layerNames << 'ch.so.agi.gemeindegrenzen'
 
 layerNames << 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte'
 layerNames << 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte_geschuetzt'
+layerNames << 'ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_bff_qualitaetsstufe_I'
+layerNames << 'ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_bff_qualitaetsstufe_I_geschuetzt'
+layerNames << 'ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_hauptkategorien'
+layerNames << 'ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_hauptkategorien_geschuetzt'
+layerNames << 'ch.so.alw.landwirtschaft_tierhaltung.kultur_punktelement_bff_qualitaetsstufe_I'
+layerNames << 'ch.so.alw.landwirtschaft_tierhaltung.kultur_punktelement_bff_qualitaetsstufe_I_geschuetzt'
 
 layerNames << 'ch.so.arp.naturreservate.reservate'
 
@@ -132,6 +141,9 @@ layerNames << 'ch.so.awjf.schutzwald_hauptgefahrenpotentiale'
 layerNames << 'ch.so.awjf.waldplan.waldeigentum'
 layerNames << 'ch.so.awjf.waldplan.waldfunktion'
 layerNames << 'ch.so.awjf.waldplan.waldplantyp'
+layerNames << 'ch.so.awjf.waldwanderwege_posten'
+
+layerNames << 'ch.so.gesa.leistungserbringerstandorte_erreichbarkeitsanalyse'
 
 //layerNames = []
 
@@ -144,12 +156,12 @@ layerNames.each { layerNamen ->
         database = dbSearch
         String layerNameString = "'${layerNamen}'"
         sqlParameters = [
-                            [layername: layerNameString, db_schema: dbSearchSchema]       
-                        ]    
+                            [layername: layerNameString, db_schema: dbSearchSchema]
+                        ]
         sqlFiles = ['migration/deleteLayerFeatures.sql']
     }
 
-    def loadTask = task "loadFeatures_${layerNamen}"(type: Db2Db, dependsOn: "deleteFeatures_${layerNamen}"){ 
+    def loadTask = task "loadFeatures_${layerNamen}"(type: Db2Db, dependsOn: "deleteFeatures_${layerNamen}"){
         sourceDb = dbPub
         targetDb = dbSearch
         transferSets = [
@@ -158,5 +170,6 @@ layerNames.each { layerNamen ->
     }
 
     loadFeaturesTasks << loadTask
+
 }
 defaultTasks (*loadFeaturesTasks.collect { it.name })

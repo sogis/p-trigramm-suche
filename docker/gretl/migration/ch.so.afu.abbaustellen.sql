@@ -1,3 +1,12 @@
+INSERT INTO ${db_schema}.feature (
+    anzeige,            -- Anzeigetext
+    suchbegriffe,       -- Suchbegriffe für den Index
+    layer_ident,        -- Layer-Identifikation
+    ausdehnung,         -- Geometrische Ausdehnung als Text
+    id_feature,         -- ID des Features
+    id_spalten_name,    -- Spaltenname, z. B. 't_id'
+    id_in_hochkomma     -- Wahrheitswert für ID-In-Hochkomma
+)
 WITH
 index_base AS (
     SELECT
@@ -6,7 +15,7 @@ index_base AS (
         concat('Nr: ',bezeichnung,' (Abbaustelle)') AS displaytext,
         concat(' ',bezeichnung)  AS part_1,
         'Abbaustelle Nr'::text AS part_3,
-        (st_asgeojson(st_envelope(mpoly), 0, 1)::json -> 'bbox'::text)::text AS bbox        
+        (st_asgeojson(st_envelope(mpoly), 0, 1)::json -> 'bbox'::text)::text AS bbox
     FROM
         afu_abbaustellen_pub_v2.abbaustelle
 )
@@ -17,7 +26,7 @@ SELECT
     bbox as ausdehnung,
     id_in_class::text AS id_feature,
     't_id'::text as id_spalten_name,
-    'str:n'::text = 'str:y' as id_in_hochkomma 
+    false as id_in_hochkomma
 FROM
     index_base
 ;

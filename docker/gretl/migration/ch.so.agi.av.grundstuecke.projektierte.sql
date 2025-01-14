@@ -1,3 +1,12 @@
+INSERT INTO ${db_schema}.feature (
+    anzeige,            -- Anzeigetext
+    suchbegriffe,       -- Suchbegriffe für den Index
+    layer_ident,        -- Layer-Identifikation
+    ausdehnung,         -- Geometrische Ausdehnung als Text
+    id_feature,         -- ID des Features
+    id_spalten_name,    -- Spaltenname, z. B. 't_id'
+    id_in_hochkomma     -- Wahrheitswert für ID-In-Hochkomma
+)
 WITH
 index_base AS (
     SELECT 'ch.so.agi.av.grundstuecke.projektierte'::text AS subclass,
@@ -54,7 +63,7 @@ SELECT
     bbox as ausdehnung,
     array_to_json(ARRAY[subclass, id_in_class::text, name_in_class::text])::text AS id_feature,
     't_id'::text as id_spalten_name,
-    'str:n'::text = 'str:y' as id_in_hochkomma 
+    false as id_in_hochkomma
 FROM
     index_base
 ;

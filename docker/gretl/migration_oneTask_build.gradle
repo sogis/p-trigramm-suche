@@ -5,7 +5,6 @@ import ch.so.agi.gretl.api.TransferSet
 //defaultTasks 'loadFeatures'
 //defaultTasks 'loadAllFeatures' //task aggregation
 
-//def dbHost = 'geodb.rootso.org'
 def dbHost = 'geodb-t.rootso.org'
 def dbPub = ['jdbc:postgresql://' + dbHost +'/pub', 'user', 'pwd']
 
@@ -13,8 +12,6 @@ def dbHostTest = 'geodb-t.rootso.org'
 def dbSearch = ['jdbc:postgresql://' + dbHostTest +'/pub', 'user', 'pwd']
 def dbSearchSchema = 'agi_suchindex_pub_v1'
 
-//def dbSearch = ['jdbc:postgresql://search-db/search', 'ddluser', 'ddluser']
-//def dbSearchSchema = 'agi_suchindex_v1_task'
 
 //--------------------
 // SCHEMA
@@ -158,24 +155,19 @@ layerNames << 'ch.so.gesa.leistungserbringerstandorte_erreichbarkeitsanalyse'
 
 layerNames.each { layerNamen ->
 
-    task "deleteFeatures_${layerNamen}"(type: SqlExecutor){
+    def trgmFeatureTask = task "loadFeatures_${layerNamen}"(type: SqlExecutor){
         database = dbSearch
         String layerNameString = "'${layerNamen}'"
         sqlParameters = [
                             [layername: layerNameString, db_schema: dbSearchSchema]
-                        ]
-        sqlFiles = ['migration/deleteLayerFeatures.sql']
+                ]
+        sqlFiles = [
+                    'migration/deleteLayerFeatures.sql',
+                    'migration/' + layerNamen +'.sql'
+                ]
     }
 
-    def loadTask = task "loadFeatures_${layerNamen}"(type: Db2Db, dependsOn: "deleteFeatures_${layerNamen}"){
-        sourceDb = dbPub
-        targetDb = dbSearch
-        transferSets = [
-            new TransferSet('migration/' + layerNamen +'.sql', dbSearchSchema + '.feature', false)
-        ];
-    }
-
-    loadFeaturesTasks << loadTask
+    loadFeaturesTasks << trgmFeatureTask
 
 }
 defaultTasks (*loadFeaturesTasks.collect { it.name })

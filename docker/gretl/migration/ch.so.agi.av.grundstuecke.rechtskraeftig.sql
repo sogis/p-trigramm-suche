@@ -61,7 +61,7 @@ SELECT
     lower((part_1 || ' '::text) || index_base.part_3) AS suchbegriffe,
     subclass AS layer_ident,
     bbox as ausdehnung,
-    array_to_json(ARRAY[subclass, id_in_class::text, name_in_class::text])::text AS id_feature,
+    id_in_class::text AS id_feature,
     't_id'::text as id_spalten_name,
     false as id_in_hochkomma
 FROM

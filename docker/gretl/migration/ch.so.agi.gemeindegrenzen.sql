@@ -1,5 +1,6 @@
 INSERT INTO ${db_schema}.feature (
     anzeige,            -- Anzeigetext
+    rangbegriffe,       -- Begriffe für das Ranking der Suchresulate
     suchbegriffe,       -- Suchbegriffe für den Index
     layer_ident,        -- Layer-Identifikation
     ausdehnung,         -- Geometrische Ausdehnung als Text
@@ -21,7 +22,8 @@ index_base AS (
 )
 SELECT
     displaytext AS anzeige,
-    lower((part_1 || ' '::text) || index_base.part_3) AS suchbegriffe,
+    lower(part_1) AS rangbegriffe,
+    lower((part_1 || ' '::text) || part_3) AS suchbegriffe,
     subclass AS layer_ident,
     bbox as ausdehnung,
     id_in_class::text AS id_feature,

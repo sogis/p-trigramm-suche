@@ -1,7 +1,7 @@
 SELECT
     trim('" ' FROM (string_to_array(trim('[]' FROM id), ','))[2]) AS identifier,
     display AS anzeige,
-    REPLACE(dset_children, '"ident":','"dataproduct_id":') AS unter_ebenen, --TODO: CHANGE IN solr VIEW, NOT here
+    REPLACE(REPLACE(dset_children, '"ident":','"dataproduct_id":'),'"subclass":','"type":') AS unter_ebenen, --TODO: CHANGE IN solr VIEW, NOT here
     (facet = 'background') AS ist_hintergrund,
     dset_info as hat_beschreibung,
     lower(search_1_stem) as suchbegriffe_p1,

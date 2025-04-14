@@ -1,5 +1,6 @@
 INSERT INTO ${db_schema}.feature (
     anzeige,            -- Anzeigetext
+    rangbegriffe,       -- Begriffe für das Ranking der Suchresulate
     suchbegriffe,       -- Suchbegriffe für den Index
     layer_ident,        -- Layer-Identifikation
     ausdehnung,         -- Geometrische Ausdehnung als Text
@@ -14,6 +15,7 @@ index_base AS (
         t_id AS id_in_class,
         concat(strassenname, ' ', hausnummer, ', ', plz, ' ', ortschaft, ' (Adresse)') AS displaytext,
         concat(strassenname, ' ', hausnummer, ' ', plz, ' ', ortschaft) AS part_1,
+        concat(strassenname, ' ', hausnummer) AS rank,
         'Adresse'::text AS part_3,
         (st_asgeojson(st_envelope(lage), 0, 1)::json -> 'bbox'::text)::text AS bbox
     FROM
@@ -23,6 +25,7 @@ index_base AS (
 )
 SELECT
     displaytext AS anzeige,
+    rank as rangbegriffe,
     lower((part_1 || ' '::text) || index_base.part_3) AS suchbegriffe,
     subclass AS layer_ident,
     bbox as ausdehnung,

@@ -1,3 +1,5 @@
+SET search_path to afu_abbaustellen_pub_v2;
+    
 INSERT INTO ${db_schema}.feature (
     anzeige,            -- Anzeigetext
     suchbegriffe,       -- Suchbegriffe für den Index
@@ -17,7 +19,7 @@ index_base AS (
         'Abbaustelle Nr'::text AS part_3,
         (st_asgeojson(st_envelope(mpoly), 0, 1)::json -> 'bbox'::text)::text AS bbox
     FROM
-        afu_abbaustellen_pub_v2.abbaustelle
+        abbaustelle
 )
 SELECT
     displaytext AS anzeige,

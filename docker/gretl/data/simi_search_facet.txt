@@ -1,0 +1,65 @@
+// SELECT distinct search_facet FROM simi.simi.simidata_table_view stv WHERE search_facet NOTNULL
+
+
++   ch.so.ada.archaeologie.flaechenfundstellen
++   ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt
++   ch.so.ada.archaeologie.punktfundstellen
++   ch.so.ada.archaeologie.punktfundstellen_geschuetzt
++   ch.so.afu.abbaustellen
++   ch.so.afu.altlasten.standorte
++   ch.so.afu.altlasten.standorte_geschuetzt
++   ch.so.afu.asiatische_hornisse
++   ch.so.afu.bodeninformationen.bodenprofilstandorte
++   ch.so.afu.fliessgewaesser.netz
++   ch.so.afu.geotope.aufschluss
++   ch.so.afu.geotope.erratiker
++   ch.so.afu.geotope.fundstelle_grabung_geschuetzt
++   ch.so.afu.geotope.hoehle
++   ch.so.afu.geotope.landschaftsform
++   ch.so.afu.geotope.quelle
++   ch.so.afu.gewaesserschutz_lw.stall
++   ch.so.afu.gewaesserschutz_lw.standort_mit_erhebung
++   ch.so.afu.gewaesserschutz_lw.standort_ohne_erhebung
++   ch.so.afu.naturereigniskataster.basisinformation
++   ch.so.afu.naturereigniskataster.prozessraum.sturz
++   ch.so.afu.naturereigniskataster.prozessraum.wasser
++   ch.so.afu.wasserbewirtschaftung.fassung
++   ch.so.afu.wasserbewirtschaftung.fassung_geschuetzt
++   ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung
++   ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung_geschuetzt
++   ch.so.afu.wasserbewirtschaftung.quellen
++   ch.so.afu.wasserbewirtschaftung.quellen_geschuetzt
++   ch.so.afu.wasserbewirtschaftung.sondierung
++   ch.so.afu.wasserbewirtschaftung.sondierung_geschuetzt
++   ch.so.afu.wasserbewirtschaftung.trinkwasserversorgung_geschuetzt
++   ch.so.afu.wasserbewirtschaftung.versickerungsschacht
++   ch.so.afu.wasserbewirtschaftung.versickerungsschacht_geschuetzt
++   ch.so.afu.wasserbewirtschaftung.weitere_einbauten_geschuetzt
++   ch.so.agi.av.bodenbedeckung
+ch.so.agi.av.gb2av.controlling_mutationen
+ch.so.agi.av.gb2av.controlling_vollzugsmeldungen
++   ch.so.agi.av.gebaeudeadressen.gebaeudeeingaenge
++   ch.so.agi.av.grundstuecke.projektierte
++   ch.so.agi.av.grundstuecke.rechtskraeftig
++   ch.so.agi.av.nomenklatur.flurnamen
+ch.so.agi.av.nomenklatur.gelaendenamen
+ch.so.agi.bezirksgrenzen
+ch.so.agi.gemeindegrenzen
+ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte
+ch.so.alw.landwirtschaft_tierhaltung.kultur_punktelement_bff_qualitaetsstufe_I
+ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_hauptkategorien
+ch.so.arp.baugis.geschaefte
+ch.so.arp.naturreservate.reservate
+ch.so.avt.kantonsstrassen_achsen
+ch.so.avt.kantonsstrassen_bezugspunkte
+ch.so.avt.oev.haltestellen
+ch.so.avt.verkehrszaehlstellen
+ch.so.awjf.bestandeskarte_wald_flaechen
+ch.so.awjf.gewaesser.fischereireviere
+ch.so.awjf.schutzwald_hauptgefahrenpotentiale
+ch.so.awjf.schutzwaldausscheidung
+ch.so.awjf.waldplan.waldeigentum
+ch.so.awjf.waldplan.waldfunktion
+ch.so.awjf.waldplan.waldplantyp
+ch.so.awjf.waldwanderwege_posten
+ch.so.gesa.leistungserbringerstandorte_erreichbarkeitsanalyse

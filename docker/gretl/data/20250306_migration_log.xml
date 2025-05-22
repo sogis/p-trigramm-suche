@@ -48,14 +48,14 @@ deleted        <entity name="ch_so_afu_gewaesserschutz_fassungen" query="SELECT 
         <entity name="ch_so_afu_naturereigniskataster_prozessraum_sturz" query="SELECT * FROM afu_naturereigniskataster_pub_v1.afu_naturereigniskataster_pr_sturz_solr_v">
         <entity name="ch_so_afu_naturereigniskataster_prozessraum_wasser" query="SELECT * FROM afu_naturereigniskataster_pub_v1.afu_naturereigniskataster_pr_wasser_solr_v">
 
-<div id="TEST"></div>
-
         <entity name="ch_so_agi_av_bodenbedeckung" query="SELECT * FROM agi_mopublic_pub.mopublic_bodenbedeckung_solr_v">
         <entity name="ch_so_agi_av_gebaeudeadressen_gebaeudeeingaenge" query="SELECT * FROM agi_mopublic_pub.mopublic_gebaeudeadresse_solr_v">
         <entity name="ch_so_agi_av_grundstuecke_rechtskraeftig" query="SELECT * FROM agi_mopublic_pub.mopublic_grundstueck_nummer_solr_v">
         <entity name="ch_so_agi_av_grundstuecke_projektierte" query="SELECT * FROM agi_mopublic_pub.mopublic_grundstueck_proj_nummer_solr_v">
         <entity name="ch_so_agi_av_nomenklatur_flurnamen" query="SELECT * FROM agi_mopublic_pub.mopublic_flurname_solr_v">
         <entity name="ch_so_agi_av_nomenklatur_gelaendenamen" query="SELECT * FROM agi_mopublic_pub.mopublic_gelaendename_solr_v">
+<div id="TEST"></div>
+
 
 <div id="TODO"></div>
 

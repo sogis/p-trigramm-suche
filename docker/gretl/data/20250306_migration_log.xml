@@ -54,21 +54,26 @@ deleted        <entity name="ch_so_afu_gewaesserschutz_fassungen" query="SELECT 
         <entity name="ch_so_agi_av_grundstuecke_projektierte" query="SELECT * FROM agi_mopublic_pub.mopublic_grundstueck_proj_nummer_solr_v">
         <entity name="ch_so_agi_av_nomenklatur_flurnamen" query="SELECT * FROM agi_mopublic_pub.mopublic_flurname_solr_v">
         <entity name="ch_so_agi_av_nomenklatur_gelaendenamen" query="SELECT * FROM agi_mopublic_pub.mopublic_gelaendename_solr_v">
+
+        <entity name="ch_so_agi_bezirksgrenzen" query="SELECT * FROM agi_hoheitsgrenzen_pub.hoheitsgrenzen_bezirksgrenze_solr_v">
+        <entity name="ch_so_agi_gemeindegrenzen" query="SELECT * FROM agi_hoheitsgrenzen_pub.hoheitsgrenzen_gemeindegrenze_solr_v">
+
+        <entity name="ch_so_agi_av_gb2av_controlling_mutationen" query="SELECT * FROM agi_gb2av_controlling_pub.controlling_av2gb_mutationen_v_solr_v">
+        <entity name="ch_so_agi_av_gb2av_controlling_vollzugsmeldungen" query="SELECT * FROM agi_gb2av_controlling_pub.controlling_gb2av_vollzugsmeldung_delta_solr_v">
+
 <div id="TEST"></div>
+
+
 
 
 <div id="TODO"></div>
 
 
-        </entity>
-        <entity name="ch_so_agi_bezirksgrenzen" query="SELECT * FROM agi_hoheitsgrenzen_pub.hoheitsgrenzen_bezirksgrenze_solr_v">
-        </entity>
-        <entity name="ch_so_agi_gemeindegrenzen" query="SELECT * FROM agi_hoheitsgrenzen_pub.hoheitsgrenzen_gemeindegrenze_solr_v">
-        </entity>
         <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_bienenstandorte" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.bienenstandorte_solr_v">
-        </entity>
-        <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_bienenstandorte_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.bienenstandorte_solr_v">
-        </entity>
+not needed        <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_bienenstandorte_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.bienenstandorte_solr_v">
+
+
+
         <entity name="ch_so_arp_naturreservate_reservate" query="SELECT * FROM arp_naturreservate_pub.naturreservate_reservat_solr_v">
         </entity>
         <entity name="ch_so_avt_kantonsstrassen_achsen" query="SELECT * FROM avt_kantonsstrassen_pub.kantonsstrassen_solr_v">
@@ -92,10 +97,6 @@ deleted        <entity name="ch_so_afu_gewaesserschutz_fassungen" query="SELECT 
         <entity name="ch_so_awjf_waldplan_waldfunktion" query="SELECT * FROM awjf_waldplan_bestandeskarte_pub_v1.waldplan_bestandeskarte_funktion_solr_v">
         </entity>
         <entity name="ch_so_awjf_waldplan_waldplantyp" query="SELECT * FROM awjf_waldplan_bestandeskarte_pub_v1.waldplan_bestandeskarte_typ_solr_v">
-        </entity>
-        <entity name="ch_so_agi_av_gb2av_controlling_mutationen" query="SELECT * FROM agi_gb2av_controlling_pub.controlling_av2gb_mutationen_v_solr_v">
-        </entity>
-        <entity name="ch_so_agi_av_gb2av_controlling_vollzugsmeldungen" query="SELECT * FROM agi_gb2av_controlling_pub.controlling_gb2av_vollzugsmeldung_delta_solr_v">
         </entity>
         <entity name="ch_so_awjf_waldwanderwege_posten" query="SELECT * FROM awjf_waldwanderwege_pub.waldwanderwege_posten_solr_v">
         </entity>

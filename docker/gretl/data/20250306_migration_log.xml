@@ -63,14 +63,21 @@ deleted        <entity name="ch_so_afu_gewaesserschutz_fassungen" query="SELECT 
 
 <div id="TEST"></div>
 
+        <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_bienenstandorte" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.bienenstandorte_solr_v">
+        <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_bienenstandorte_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.bienenstandorte_solr_v">
 
+        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_bff_qualitaetsstufe_I" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
+        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_bff_qualitaetsstufe_I_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
 
+        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_hauptkategorien" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
+        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_hauptkategorien_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
+
+        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kultur_punktelement_bff_qualitaetsstufe_I" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kultur_punktelement_solr_v">
+        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kultur_punktelement_bff_qualitaetsstufe_I_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kultur_punktelement_solr_v">
 
 <div id="TODO"></div>
 
 
-        <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_bienenstandorte" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.bienenstandorte_solr_v">
-not needed        <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_bienenstandorte_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.bienenstandorte_solr_v">
 
 
 
@@ -100,18 +107,8 @@ not needed        <entity name="ch_so_alw_bienenstandorte_und_sperrgebiete_biene
         </entity>
         <entity name="ch_so_awjf_waldwanderwege_posten" query="SELECT * FROM awjf_waldwanderwege_pub.waldwanderwege_posten_solr_v">
         </entity>
-        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_hauptkategorien" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
-        </entity>
-        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_hauptkategorien_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
-        </entity>
-        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_bff_qualitaetsstufe_I" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
-        </entity>
-        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kulturflaechen_bff_qualitaetsstufe_I_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kulturflaechen_hauptkategorien_solr_v">
-        </entity>
-        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kultur_punktelement_bff_qualitaetsstufe_I" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kultur_punktelement_solr_v">
-        </entity>
-        <entity name="ch_so_alw_landwirtschaft_tierhaltung_kultur_punktelement_bff_qualitaetsstufe_I_geschuetzt" query="SELECT * FROM alw_landwirtschaft_tierhaltung_pub_v1.kultur_punktelement_solr_v">
-        </entity>
+
+
         <entity name="ch_so_gesa_leistungserbringerstandorte_erreichbarkeitsanalyse" query="SELECT * FROM gesa_leistungserbringerstandorte_analyse_pub_v1.analyse_standort_solr_v">
 
 

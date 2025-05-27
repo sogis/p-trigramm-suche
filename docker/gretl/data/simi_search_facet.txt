@@ -46,9 +46,11 @@
 +T   ch.so.agi.bezirksgrenzen
 +T  ch.so.agi.gemeindegrenzen
 
-ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte
-ch.so.alw.landwirtschaft_tierhaltung.kultur_punktelement_bff_qualitaetsstufe_I
-ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_hauptkategorien
+SIMI INTENSIV CHECK
++T  ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte
++T  ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_hauptkategorien
++T  ch.so.alw.landwirtschaft_tierhaltung.kultur_punktelement_bff_qualitaetsstufe_I
+
 ch.so.arp.baugis.geschaefte
 ch.so.arp.naturreservate.reservate
 ch.so.avt.kantonsstrassen_achsen
@@ -68,3 +70,6 @@ ch.so.gesa.leistungserbringerstandorte_erreichbarkeitsanalyse
 
 + = Migriert
 T = Vergleich Solr-Trigramm im WGC erfolgt
+
+
+

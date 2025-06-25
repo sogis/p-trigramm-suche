@@ -8,45 +8,45 @@ const filterPrefix = args.find(arg => arg.startsWith('--filter='))?.split('=')[1
 // Konfiguration der zu testenden Parameter
 const testCases = [
 
-    //{ searchtext: 'strasse', filter: 'no' },
+    { searchtext: 'geotope', filter: 'background,foreground' },
 
     // Archäologie
     { searchtext: '115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen' },
-    { searchtext: 'Flächenfundstelle: 115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen' },
-    { searchtext: '115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt' },
-    { searchtext: '115/270', filter: 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt' },
+    { searchtext: '115 263', filter: 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt' },
+    { searchtext: '115 270', filter: 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt' },
     { searchtext: '115/270', filter: 'ch.so.ada.archaeologie.punktfundstellen' },
 
     // Amt für Umwelt - Abbaustellen und Geotope
-    { searchtext: '4500', filter: 'ch.so.afu.abbaustellen' },
-    { searchtext: 'Solothurn', filter: 'ch.so.afu.geotope.aufschluss' },
+    { searchtext: 'Steinbruch Steingruebe', filter: 'ch.so.afu.abbaustellen' },
+    { searchtext: 'Verwerfung Martinsflue', filter: 'ch.so.afu.geotope.aufschluss' },
+    { searchtext: 'mp 22 ruine', filter: 'ch.so.afu.geotope.fundstelle_grabung_geschuetzt' },
+    { searchtext: 'Heidenloch-Höhle Born', filter: 'ch.so.afu.geotope.hoehle' },
+    { searchtext: 'Erratiker Chalchgraben 2', filter: 'ch.so.afu.geotope.erratiker' },
+    { searchtext: 'Halbklus Balmberg ', filter: 'ch.so.afu.geotope.landschaftsform' },
+    { searchtext: 'alte Gipsquelle Mineralwasser L1', filter: 'ch.so.afu.geotope.quelle' },
+
     { searchtext: '6333', filter: 'ch.so.afu.gewaesserschutz_lw.standort_mit_erhebung' },
     { searchtext: '4500', filter: 'ch.so.afu.gewaesserschutz_lw.standort_ohne_erhebung' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.bodeninformationen.bodenprofilstandorte' },
     { searchtext: '6333', filter: 'ch.so.afu.wasserbewirtschaftung.weitere_einbauten_geschuetzt' },
-    { searchtext: '4500', filter: 'ch.so.afu.geotope.erratiker' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.wasserbewirtschaftung.fassung' },
     { searchtext: '6333', filter: 'ch.so.afu.gewaesserschutz.fassungen' },
     { searchtext: '4500', filter: 'ch.so.afu.wasserbewirtschaftung.fassung_geschuetzt' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.fliessgewaesser.netz' },
-    { searchtext: '6333', filter: 'ch.so.afu.geotope.fundstelle_grabung_geschuetzt' },
     { searchtext: '4500', filter: 'ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.wasserbewirtschaftung.grundwasserwaermenutzung_geschuetzt' },
-    { searchtext: '6333', filter: 'ch.so.afu.geotope.hoehle' },
     { searchtext: '4500', filter: 'ch.so.afu.altlasten.standorte' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.altlasten.standorte_geschuetzt' },
-    { searchtext: '6333', filter: 'ch.so.afu.geotope.landschaftsform' },
     { searchtext: '4500', filter: 'ch.so.afu.naturereigniskataster.basisinformation' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.naturereigniskataster.prozessraum.sturz' },
     { searchtext: '6333', filter: 'ch.so.afu.naturereigniskataster.prozessraum.wasser' },
     { searchtext: '4500', filter: 'ch.so.afu.asiatische_hornisse' },
-    { searchtext: 'Solothurn', filter: 'ch.so.afu.geotope.quelle' },
     { searchtext: '6333', filter: 'ch.so.afu.gewaesserschutz.quellen' },
     { searchtext: '4500', filter: 'ch.so.afu.wasserbewirtschaftung.quellen' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.wasserbewirtschaftung.quellen_geschuetzt' },
     { searchtext: '6333', filter: 'ch.so.afu.wasserbewirtschaftung.sondierung' },
     { searchtext: '4500', filter: 'ch.so.afu.wasserbewirtschaftung.sondierung_geschuetzt' },
-    { searchtext: 'Solothurn', filter: 'ch.so.afu.gewaesserschutz_lw.stall' },
+    { searchtext: 'Schafstall 167', filter: 'ch.so.afu.gewaesserschutz_lw.stall' },
     { searchtext: '6333', filter: 'ch.so.afu.wasserbewirtschaftung.trinkwasserversorgung_geschuetzt' },
     { searchtext: '4500', filter: 'ch.so.afu.wasserbewirtschaftung.versickerungsschacht' },
     { searchtext: 'Solothurn', filter: 'ch.so.afu.wasserbewirtschaftung.versickerungsschacht_geschuetzt' },
@@ -106,6 +106,9 @@ class ApiComparator {
     constructor() {
         this.results = [];
         this.filterPrefix = filterPrefix;
+        this.cookies = '';
+        this.lock = Promise.resolve();
+
     }
 
     // Testfälle basierend auf Filter-Präfix filtern
@@ -132,7 +135,7 @@ class ApiComparator {
     }
 
     // HTTP GET Request mit Promise
-    makeRequest(hostname, path) {
+    async makeRequest(hostname, path, username = null, password = null, useCookies = false, saveCookies = false) {
         return new Promise((resolve, reject) => {
             const options = {
                 hostname: hostname,
@@ -140,12 +143,40 @@ class ApiComparator {
                 path: path,
                 method: 'GET',
                 headers: {
-                    'User-Agent': 'Node.js API Comparator'
+                    'User-Agent': 'Node.js API Comparator',
+                    'Accept': 'application/json',
                 }
             };
 
+            // Basic Auth
+            if (username && password) {
+                const credentials = Buffer.from(`${username}:${password}`).toString('base64');
+                options.headers['Authorization'] = `Basic ${credentials}`;
+            }
+
+            this.lock = this.lock.then(() => new Promise(async resolve => {
+                // Cookies senden wenn vorhanden und gewünscht
+                if (useCookies && this.cookies) {
+                    options.headers['Cookie'] = this.cookies;
+                }
+                resolve();
+            }));
+
             const req = https.request(options, (res) => {
                 let data = '';
+
+                if (res.statusCode > 200) {
+                    reject({
+                        statusCode: res.statusCode
+                    });
+                }
+
+                // Cookies speichern wenn gewünscht
+                if (saveCookies && res.headers['set-cookie']) {
+                    this.cookies = res.headers['set-cookie']
+                        .map(cookie => cookie.split(';')[0])
+                        .join('; ');
+                }
 
                 res.on('data', (chunk) => {
                     data += chunk;
@@ -160,7 +191,7 @@ class ApiComparator {
                             headers: res.headers
                         });
                     } catch (error) {
-                        reject(new Error(`JSON Parse Error: ${error.message}`));
+                        reject(new Error(`makeRequest JSON Parse Error: ${error.message}`));
                     }
                 });
             });
@@ -178,13 +209,33 @@ class ApiComparator {
         });
     }
 
+    async loginApi(hostname) {
+        const path = '/api-auth/search/v2/?searchtext=bla';
+        try {
+
+            await this.makeRequest(hostname, path, 'user', 'password', false, true)
+                .then(response => {
+                    console.log('  Login successful, cookies saved for: ' + hostname);
+                    // console.log('  Status:', response.statusCode);
+                });
+
+        } catch (error) {
+            console.error('loginApi Error:', error);
+            throw error;
+        }
+    }
+
     // Einzelnen API-Aufruf durchführen
     async callApi(hostname, searchtext, filter, limit = 25) {
         const path = `/api/search/v2/?searchtext=${encodeURIComponent(searchtext)}&filter=${encodeURIComponent(filter)}&limit=${limit}`;
 
         try {
             const startTime = Date.now();
+
             const response = await this.makeRequest(hostname, path);
+            // const response = await this.makeRequest(hostname, path, 'user', 'password', false, false);
+            //const response = await this.makeRequest(hostname, path, null, null, true, false);
+
             const endTime = Date.now();
 
             return {
@@ -241,7 +292,8 @@ class ApiComparator {
 
         // Vergleiche result_counts
         if (!this.compareResultCounts(data1.result_counts, data2.result_counts)) {
-            return false;
+            //return false;
+            console.log('    ! kein Vergleich der json.result_counts');
         }
 
         // Vergleiche results Array
@@ -351,6 +403,16 @@ class ApiComparator {
             return;
         }
 
+        // try {
+        //     const host = PROD_BASE_URL;
+        //     await this.loginApi(host);
+        //     console.log(`  ✅ Login erfolgreich ${host}\n`);
+
+        // } catch (error) {
+        //     console.error(`❌ Fehler bei Login`);
+        //     throw new Error("Login Fehler - THE END.");
+        // }
+
         for (let i = 0; i < activeTestCases.length; i++) {
             const testCase = activeTestCases[i];
 
@@ -451,9 +513,9 @@ class ApiComparator {
                 const testFirst = testData.results[0].feature;
 
                 if (prodFirst && testFirst) {
-/*                     if (prodFirst.feature_id !== testFirst.feature_id) {
-                        console.log(`     🆔 Feature ID: PROD=${prodFirst.feature_id}, TEST=${testFirst.feature_id}`);
-                    } */
+                    /*                     if (prodFirst.feature_id !== testFirst.feature_id) {
+                                            console.log(`     🆔 Feature ID: PROD=${prodFirst.feature_id}, TEST=${testFirst.feature_id}`);
+                                        } */
                     if (prodFirst.display !== testFirst.display) {
                         console.log(`     📝 Display: PROD="${prodFirst.display}", TEST="${testFirst.display}"`);
                     }

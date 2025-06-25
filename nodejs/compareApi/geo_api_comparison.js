@@ -7,8 +7,12 @@ const filterPrefix = args.find(arg => arg.startsWith('--filter='))?.split('=')[1
 
 // Konfiguration der zu testenden Parameter
 const testCases = [
+
+    //{ searchtext: 'strasse', filter: 'no' },
+
     // Archäologie
     { searchtext: '115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen' },
+    { searchtext: 'Flächenfundstelle: 115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen' },
     { searchtext: '115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt' },
     { searchtext: '115/270', filter: 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt' },
     { searchtext: '115/270', filter: 'ch.so.ada.archaeologie.punktfundstellen' },
@@ -56,7 +60,7 @@ const testCases = [
     { searchtext: 'Solothurn', filter: 'ch.so.agi.av.gebaeudeadressen.gebaeudeeingaenge' },
     { searchtext: '6333', filter: 'ch.so.agi.av.nomenklatur.gelaendenamen' },
     { searchtext: '4500', filter: 'ch.so.agi.gemeindegrenzen' },
-    { searchtext: 'Solothurn', filter: 'ch.so.agi.av.grundstuecke.rechtskraeftig' },
+    { searchtext: '4590 Solothurn', filter: 'ch.so.agi.av.grundstuecke.rechtskraeftig' },
     { searchtext: '6333', filter: 'ch.so.agi.av.grundstuecke.projektierte' },
 
     // Amt für Landwirtschaft
@@ -113,6 +117,13 @@ class ApiComparator {
         const filtered = testCases.filter(testCase =>
             testCase.filter.startsWith(this.filterPrefix)
         );
+
+        //remove filter, if prefix='no'
+        if (filterPrefix && filterPrefix.toLowerCase() == 'no') {
+            filtered.forEach(testCase => {
+                testCase.filter = '';
+            });
+        }
 
         console.log(`🔍 Filter aktiv: "${this.filterPrefix}"`);
         console.log(`📊 Gefilterte Tests: ${filtered.length}/${testCases.length}\n`);
@@ -289,9 +300,10 @@ class ApiComparator {
         // Vergleiche kritische Feature-Eigenschaften
         const criticalFields = [
             'dataproduct_id',
+            'display',
             //'feature_id',
             'id_field_name',
-            'display'//,
+            'id_field_type'
             //'srid'
         ];
 
@@ -329,6 +341,8 @@ class ApiComparator {
     async runComparison() {
         console.log('🚀 Starte API-Vergleich...\n');
 
+        console.log(`💥 ${PROD_BASE_URL} vs. ${TEST_BASE_URL} 💥\n`);
+
         // Gefilterte Testfälle abrufen
         const activeTestCases = this.getFilteredTestCases();
 
@@ -339,6 +353,7 @@ class ApiComparator {
 
         for (let i = 0; i < activeTestCases.length; i++) {
             const testCase = activeTestCases[i];
+
             console.log(`📋 Test ${i + 1}/${activeTestCases.length}: ${testCase.searchtext} - ${testCase.filter}`);
 
             try {
@@ -455,8 +470,8 @@ class ApiComparator {
         const successful = this.results.filter(r => r.production.success && r.test.success);
         const failed = this.results.filter(r => !r.production.success || !r.test.success);
 
-        console.log(`✅ Erfolgreiche Tests: ${successful.length}/${this.results.length}`);
-        console.log(`❌ Fehlgeschlagene Tests: ${failed.length}/${this.results.length}`);
+        console.log(`✅ Erfolgreiche API-Vergleiche: ${successful.length}/${this.results.length}`);
+        console.log(`❌ Fehlgeschlagene API-Vergleiche: ${failed.length}/${this.results.length} \n`);
 
         if (successful.length > 0) {
             const statusMatches = successful.filter(r => r.comparison.statusCodeMatch).length;

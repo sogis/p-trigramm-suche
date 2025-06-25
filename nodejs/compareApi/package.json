@@ -1,0 +1,14 @@
+{
+  "name": "compareApi",
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node geo_api_comparison.js",
+    "test": "node geo_api_comparison.js --filter=ch.so.afu.geotope.aufschluss",
+    "readme": "node geo_api_comparison.js --help"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0"
+  }
+}

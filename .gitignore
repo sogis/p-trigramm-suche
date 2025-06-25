@@ -2,3 +2,33 @@
 **/build/
 docker/gretl/.gradle/
 docker/gretl/build_private.gradle
+
+.gradle/
+build/
+
+# Logs
+*.log
+
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+
+# OS & Editor files
+.DS_Store
+*.swp
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Build
+dist/
+build/

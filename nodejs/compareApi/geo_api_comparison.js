@@ -1,5 +1,10 @@
-const https = require('https');
-const fs = require('fs');
+import https from 'https';
+import fs from 'fs';
+import 'dotenv/config';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from 'path';
 
 // Kommandozeilen-Argumente verarbeiten
 const args = process.argv.slice(2);
@@ -8,7 +13,7 @@ const filterPrefix = args.find(arg => arg.startsWith('--filter='))?.split('=')[1
 // Konfiguration der zu testenden Parameter
 const testCases = [
 
-    { searchtext: 'geotope', filter: 'background,foreground' },
+    // { searchtext: 'geotope', filter: 'background,foreground,ch.so.afu.geotope.aufschluss' },
 
     // Archäologie
     { searchtext: '115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen' },
@@ -213,7 +218,7 @@ class ApiComparator {
         const path = '/api-auth/search/v2/?searchtext=bla';
         try {
 
-            await this.makeRequest(hostname, path, 'user', 'password', false, true)
+            await this.makeRequest(hostname, path, process.env.username, process.env.password, false, true)
                 .then(response => {
                     console.log('  Login successful, cookies saved for: ' + hostname);
                     // console.log('  Status:', response.statusCode);
@@ -612,8 +617,12 @@ VERFÜGBARE FILTER-PRÄFIXE:
 `);
 }
 
-// Programm ausführen
-if (require.main === module) {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+if (process.argv[1] === __filename) {
+    const args = process.argv.slice(2);
+
     // Hilfe anzeigen falls gewünscht
     if (args.includes('--help') || args.includes('-h')) {
         showHelp();
@@ -624,4 +633,4 @@ if (require.main === module) {
     comparator.runComparison().catch(console.error);
 }
 
-module.exports = ApiComparator;
+export default ApiComparator;

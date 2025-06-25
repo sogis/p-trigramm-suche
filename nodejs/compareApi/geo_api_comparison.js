@@ -516,37 +516,37 @@ class ApiComparator {
 // Hilfe-Text anzeigen
 function showHelp() {
     console.log(`
-🔧 API-Vergleichstool für geo.so.ch
+🔧 API-Vergleichstool für '${PROD_BASE_URL}' und '${TEST_BASE_URL}'
 
 VERWENDUNG:
-  node api-comparator.js [OPTIONEN]
+  node geo_api_comparison.js [OPTIONEN]
 
 OPTIONEN:
   --filter=PREFIX    Nur Filter mit bestimmtem Präfix testen
-  --help            Diese Hilfe anzeigen
+  --help             Diese Hilfe anzeigen
 
 BEISPIELE:
-  node api-comparator.js
-    → Alle Tests ausführen (65 Tests)
+  node geo_api_comparison.js
+    → Alle Tests ausführen
 
-  node api-comparator.js --filter=ch.so.agi
-    → Nur AGI-Filter testen (10 Tests)
+  node geo_api_comparison.js --filter=ch.so.agi
+    → Nur AGI-Filter testen
 
-  node api-comparator.js --filter=ch.so.afu
-    → Nur AFU-Filter testen (32 Tests)
+  node geo_api_comparison.js --filter=ch.so.afu
+    → Nur AFU-Filter testen
 
-  node api-comparator.js --filter=ch.so.awjf
-    → Nur AWJF-Filter testen (9 Tests)
+  node geo_api_comparison.js --filter=ch.so.awjf
+    → Nur AWJF-Filter testen
 
 VERFÜGBARE FILTER-PRÄFIXE:
-  ch.so.ada    - Archäologie (4 Tests)
-  ch.so.afu    - Amt für Umwelt (32 Tests)
-  ch.so.agi    - Amt für Geoinformation (10 Tests)
-  ch.so.alw    - Amt für Landwirtschaft (8 Tests)
-  ch.so.arp    - Amt für Raumplanung (2 Tests)
-  ch.so.avt    - Amt für Verkehr und Tiefbau (4 Tests)
-  ch.so.awjf   - Amt für Wald, Jagd und Fischerei (9 Tests)
-  ch.so.gesa   - Gesundheitsamt (1 Test)
+  ch.so.ada    - Archäologie
+  ch.so.afu    - Amt für Umwelt
+  ch.so.agi    - Amt für Geoinformation
+  ch.so.alw    - Amt für Landwirtschaft
+  ch.so.arp    - Amt für Raumplanung
+  ch.so.avt    - Amt für Verkehr und Tiefbau
+  ch.so.awjf   - Amt für Wald, Jagd und Fischerei
+  ch.so.gesa   - Gesundheitsamt
 `);
 }
 

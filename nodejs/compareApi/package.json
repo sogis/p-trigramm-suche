@@ -9,6 +9,7 @@
     "readme": "node geo_api_comparison.js --help"
   },
   "dependencies": {
+    "axios": "^1.10.0",
     "dotenv": "^16.5.0"
   }
 }

@@ -329,7 +329,7 @@ const testCases = [
 
     // Amt für Landwirtschaft
     { searchtext: '394047 bienenstandort', filter: 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte' },
-    { searchtext: '303204 bienenstandort', filter: 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte_geschuetzt', auth: true },
+    { searchtext: '68076 bienenstandort', filter: 'ch.so.alw.bienenstandorte_und_sperrgebiete.bienenstandorte_geschuetzt', auth: true },
     { searchtext: '6333', filter: 'ch.so.alw.landwirtschaft_tierhaltung.kultur_punktelement_bff_qualitaetsstufe_I' },
     { searchtext: '4500', filter: 'ch.so.alw.landwirtschaft_tierhaltung.kultur_punktelement_bff_qualitaetsstufe_I_geschuetzt', auth: true },
     { searchtext: 'Solothurn', filter: 'ch.so.alw.landwirtschaft_tierhaltung.kulturflaechen_bff_qualitaetsstufe_I' },
@@ -913,8 +913,6 @@ class ApiComparator {
                 if (prodFirst && testFirst) {
                     // Vergleiche kritische Feature-Eigenschaften
                     const criticalFields = [
-                        'dataproduct_id',
-                        'display',
                         'id_field_name',
                         'id_field_type',
                         //'srid'

@@ -1,4 +1,4 @@
-# geo_api_comparison
+# geo api comparison
 
 Search API-Vergleichstool für 'geo.so.ch' und 'geo-t.so.ch'
 
@@ -17,14 +17,16 @@ password=meinpasswort
 
 `npm run` for all scripts
 
+`npm run test` for test run
+
 ## getting started with the module
 
-`node geo_api_comparison.js --help`
+`node geo_api_comp3.js --help`
 
-`node geo_api_comparison.js `
+`node geo_api_comp3.js `
 
 Filter the tests to perform:
-`node geo_api_comparison.js --filter=ch.so.agi`
+`node geo_api_comp3.js --filter=ch.so.agi`
 
 
 

@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node geo_api_comparison.js",
-    "test": "node geo_api_comparison.js --filter=ch.so.afu.geotope.aufschluss",
-    "readme": "node geo_api_comparison.js --help"
+    "start": "node geo_api_comp3.js",
+    "test": "node geo_api_comp3.js --filter=ch.so.afu.geotope.aufschluss",
+    "readme": "node geo_api_comp3.js --help"
   },
   "dependencies": {
     "axios": "^1.10.0",

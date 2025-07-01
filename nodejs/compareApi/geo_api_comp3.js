@@ -14,7 +14,8 @@ class APIComparator {
         this.baseURL2 = 'https://geo-t.so.ch/api/search/v2/';
         this.baseAuthURL1 = 'https://geo.so.ch/api-auth/search/v2/';
         this.baseAuthURL2 = 'https://geo-t.so.ch/api-auth/search/v2/';
-        this.filterPrefix = options.filterPrefix || null; // CLI Filter
+        this.filterPrefix = options.filterPrefix || null;   // CLI Filter
+        this.interactive = options.interactive || null;     //user interaction on error/warning
         this.summary = {
             totalTests: 0,
             passed: 0,
@@ -550,8 +551,8 @@ class APIComparator {
 
         let obj1, obj2;
         // if (Array.isArray(_obj1.results) && Array.isArray(_obj2.results)) {
-            obj1 = sortJsonDeep(_obj1);
-            obj2 = sortJsonDeep(_obj2);
+        obj1 = sortJsonDeep(_obj1);
+        obj2 = sortJsonDeep(_obj2);
         // }
         // else {
         //     obj1 = _obj1;
@@ -733,7 +734,9 @@ class APIComparator {
             structuralDifferences: [],
             contentDifferences: [],
             warnings: [],
-            error: null
+            error: null,
+            url1: '',
+            url2: ''
         };
 
         try {
@@ -764,6 +767,8 @@ class APIComparator {
 
             testResult.api1 = response1;
             testResult.api2 = response2;
+            testResult.url1 = url1;
+            testResult.url2 = url2;
 
             // Auth-Fehler spezifisch behandeln
             if (response1.statusCode === 401 || response2.statusCode === 401) {
@@ -924,6 +929,7 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
             }
             report += `**Status:** ${statusEmoji[result.status] || '❓'} ${statusText[result.status] || result.status}\n`;
             report += `**Suchtext:** "${result.testCase.searchtext}"\n`;
+            if (result.testCase.description) report += `**Details:** "${result.testCase.description}"\n`;
             report += `**Filter:** "${result.testCase.filter}"\n`;
             report += `**Authentifizierung:** ${result.testCase.auth ? '🔒 Basic Auth' : '🔓 Öffentlich'}\n`;
             report += `**Erwartete Ergebnisse:** ${!result.testCase.dontExpectResults ? '✅ Ja' : '❌ Nein'}\n`;
@@ -933,6 +939,7 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
                 report += `**Fehler:** ${result.error}\n\n`;
             }
 
+            report += `**URLs:** API1: ${result.url1} \n          API2: ${result.url2}\n`;
             if (result.api1 && result.api2) {
                 report += `**Status Codes:** API1: ${result.api1.statusCode}, API2: ${result.api2.statusCode}\n`;
 
@@ -1037,7 +1044,7 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
                 continue;
             }
 
-            if (result.status !== 'passed') {
+            if (this.interactive && result.status !== 'passed' ) {
                 await waitForUserInteraction();
             }
 
@@ -1048,11 +1055,13 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
             await new Promise(resolve => setTimeout(resolve, 100));
         }
 
+        rl.close();
+
         // Bericht generieren
         const report = this.formatReport(this.results);
 
         // Bericht speichern
-        const filename = `api-comparison-${Date.now()}.md`;
+        const filename = `api-comparison-${new Date().toISOString().replace(/[:.]/g, '-')}.md`;
         fs.writeFileSync(filename, report);
 
         console.log(`\n📄 Bericht gespeichert: ${filename}`);
@@ -1132,11 +1141,12 @@ Verwendung:
   node ${__filename.split('/').pop()} [Optionen]
 
 Optionen:
-  --filter <prefix>     Führt nur Tests aus, deren Filter mit dem Prefix beginnen
-  --help               Zeigt diese Hilfe an
+  -f --filter <prefix>    Führt nur Tests aus, deren Filter mit dem Prefix beginnen
+  -h --help               Zeigt diese Hilfe an
+  -i --interactive        User Interaktion bei Fehlern / Warnung
 
 Beispiele:
-  node ${__filename.split('/').pop()}                    # Alle Tests ausführen
+  node ${__filename.split('/').pop()}                     # Alle Tests ausführen
   node ${__filename.split('/').pop()} --filter ch.so.agi  # Nur AGI-Tests
   node ${__filename.split('/').pop()} --filter background # Nur Background-Tests
   node ${__filename.split('/').pop()} --filter ch.so.ada  # Nur ADA-Tests
@@ -1153,7 +1163,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
             args: process.argv.slice(2),
             options: {
                 filter: { type: 'string', short: 'f' },
-                help: { type: 'boolean', short: 'h' }
+                help: { type: 'boolean', short: 'h' },
+                interactive: { type: 'boolean', short: 'i' }
             }
         });
 
@@ -1166,9 +1177,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         if (values.filter) {
             options.filterPrefix = values.filter;
         }
+        if (values.interactive) {
+            options.interactive = values.interactive;
+        }
 
         const comparator = new APIComparator(options);
-        comparator.run().catch(console.error);
+        comparator.run().catch(console.error).finally();
 
     } catch (error) {
         console.error('❌ Fehler beim Parsen der Argumente:', error.message);

@@ -2,6 +2,7 @@ import axios from 'axios';
 import fs from 'fs';
 import util from 'util';
 import { fileURLToPath } from 'url';
+import path from 'path';
 import { dirname } from 'path';
 import { parseArgs } from 'util';
 import 'dotenv/config';
@@ -440,7 +441,7 @@ class APIComparator {
     async makeRequest(url, useAuth = false) {
         try {
             const config = {
-                timeout: 10000,
+                timeout: 5000,
                 headers: {
                     'User-Agent': 'API-Comparator/1.0',
                     'Accept': 'application/json'
@@ -1044,7 +1045,7 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
                 continue;
             }
 
-            if (this.interactive && result.status !== 'passed' ) {
+            if (this.interactive && result.status !== 'passed') {
                 await waitForUserInteraction();
             }
 
@@ -1062,9 +1063,10 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
 
         // Bericht speichern
         const filename = `api-comparison-${new Date().toISOString().replace(/[:.]/g, '-')}.md`;
-        fs.writeFileSync(filename, report);
+        const savepath = path.join(process.cwd(), filename);
+        fs.writeFileSync(savepath, report);
 
-        console.log(`\n📄 Bericht gespeichert: ${filename}`);
+        console.log(`\n📄 Bericht gespeichert: ${savepath}`);
         console.log(`\n📊 Finale Zusammenfassung:`);
         console.log(`   Tests gesamt: ${this.summary.totalTests}`);
         console.log(`   Übersprungen: ${this.summary.skippedTests}`);

@@ -91,7 +91,7 @@ class APIComparator {
             { "searchtext": "pikettregionen militärjustiz, militär, militärjustiz, pikettregionen, pikett", "filter": "background,foreground", "description": "ch.so.dsbjd.pikettregionen_militaerjustiz", "auth": false },
             { "searchtext": "öv-güteklassen, erschliessungsgüte", "filter": "background,foreground", "description": "ch.so.avt.oev_gueteklasse", "auth": false },
             { "searchtext": "waldstandorte, waldgesellschaft", "filter": "background,foreground", "description": "ch.so.awjf.natuerliche_waldstandorte", "auth": false },
-            { "searchtext": "bauzonengrenzen", "filter": "background,foreground,g", "description": "ch.so.arp.bauzonengrenzen", "auth": false },
+            { "searchtext": "bauzonengrenzen", "filter": "background,foreground", "description": "ch.so.arp.bauzonengrenzen", "auth": false },
             { "searchtext": "relief digitales oberflächenmodell (lidar)", "filter": "background,foreground", "description": "ch.so.agi.lidar.dsm_relief", "auth": false },
             { "searchtext": "relief digitales terrainmodell (lidar)", "filter": "background,foreground", "description": "ch.so.agi.lidar.dtm_relief", "auth": false },
             { "searchtext": "abbaustellen", "filter": "background,foreground", "description": "ch.so.afu.abbaustellen", "auth": false },
@@ -105,7 +105,7 @@ class APIComparator {
             { "searchtext": "übersichtsplan 2009 (historische karte)", "filter": "background,foreground", "description": "ch.so.agi.uebersichtsplan", "auth": false },
             { "searchtext": "strassenlärm belastungen, strassenlärm belastungen", "filter": "background,foreground", "description": "ch.so.avt.strassenlaerm", "auth": false },
             { "searchtext": "polizeiregionen", "filter": "background,foreground", "description": "ch.so.agi.polizeiregionen", "auth": false },
-            { "searchtext": "vereinbarungsflächen mehrjahresprogramm natur und landschaft (mjpnl), vereinbarungsflächen mjpnl", "filter": "background,foreground", "description": "ch.so.arp.naturschutzobjekte.mjpnl_vereinbarungsflaechen", "auth": false },
+            { "searchtext": "vereinbarungsflächen mehrjahresprogramm natur und landschaft (mjpnl), vereinbarungsflächen mjpnl detaillierte informationen", "filter": "background,foreground,g", "description": "ch.so.arp.naturschutzobjekte.mjpnl_vereinbarungsflaechen", "auth": false },
             { "searchtext": "pflanzengesundheit schadorganismen massnahmengebiete (geschützt)", "filter": "background,foreground", "description": "ch.so.alw.pflanzengesundheit_massnahmen_geschuetzt", "auth": true },
             { "searchtext": "tiergesundheit massnahmengebiet", "filter": "background,foreground", "description": "ch.so.alw.tiergesundheit_massnahmen", "auth": false },
             { "searchtext": "eidgenössische gebäude- und wohnungsregister (gwr)", "filter": "background,foreground", "description": "ch.bfs.gebaeude_wohnungs_register", "auth": false },
@@ -121,9 +121,9 @@ class APIComparator {
             { "searchtext": "gefahrenkarte sturz (naturgefahren)", "filter": "background,foreground", "description": "ch.so.afu.naturgefahren.gefahrengebiet_sturz", "auth": false },
             { "searchtext": "betreiber elektrizität (leitungskataster), netzbetreiber, netzebene, stromversorgung, stromversorgungssicherheit", "filter": "background,foreground", "description": "ch.so.agi.lk.netzgebiete.betreiber_elektrizitaet", "auth": false },
             { "searchtext": "regionale standortförderung", "filter": "background,foreground", "description": "ch.so.arp.arbeitszonenbewirtschaftung.regionen.wirtschaftsfoerderung", "auth": false },
-            { "searchtext": "wildtierkorridore", "filter": "background,foreground", "description": "ch.so.awjf.wildtierkorridore", "auth": false },
+            { "searchtext": "wildtierkorridore awjf", "filter": "background,foreground", "description": "ch.so.awjf.wildtierkorridore", "auth": false },
             { "searchtext": "waldplan (in bearbeitung, geschützt)", "filter": "background,foreground", "description": "ch.so.awjf.waldplan_in_bearbeitung", "auth": true },
-            { "searchtext": "bauzonenstatistik (geschützt)", "filter": "background,foreground", "description": "ch.so.arp.bauzonenstatistik", "auth": true },
+            { "searchtext": "bauzonenstatistik (geschützt) siedlungsgebiet automatisch", "filter": "background,foreground", "description": "ch.so.arp.bauzonenstatistik", "auth": true },
             { "searchtext": "nutzungsplanung, nplso, zonenplan, gesamtplan, nutzungszonen", "filter": "background,foreground", "description": "ch.so.arp.nutzungsplanung", "auth": false },
             { "searchtext": "betreiber fernwärme (leitungskataster)", "filter": "background,foreground", "description": "ch.so.agi.lk.netzgebiete.betreiber_fernwaerme", "auth": false },
             { "searchtext": "gefahrenkarte wasser (naturgefahren)", "filter": "background,foreground", "description": "ch.so.afu.naturgefahren.gefahrengebiet_wasser", "auth": false },
@@ -342,10 +342,10 @@ class APIComparator {
             { "searchtext": "ausgleichsabgabe erfassung (geschützt), mehrwertabgabe", "filter": "background,foreground", "description": "ch.so.dsbjd.ausgleichsabgabe_erfassung_geschuetzt", "auth": true },
 
             // Archäologie
-            { searchtext: '115/300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen' },
-            { searchtext: '115 300', filter: 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt', auth: true },
-            { searchtext: '115 270', filter: 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt', auth: true },
-            { searchtext: '115/270', filter: 'ch.so.ada.archaeologie.punktfundstellen' },
+            { searchtext: '115 149', filter: 'ch.so.ada.archaeologie.flaechenfundstellen' },
+            { searchtext: '115 149', filter: 'ch.so.ada.archaeologie.flaechenfundstellen_geschuetzt', auth: true },
+            { searchtext: '115 326', filter: 'ch.so.ada.archaeologie.punktfundstellen_geschuetzt', auth: true },
+            { searchtext: '115 270', filter: 'ch.so.ada.archaeologie.punktfundstellen' },
 
             // Amt für Umwelt - Abbaustellen und Geotope
             { searchtext: 'Steinbruch Steingruebe', filter: 'ch.so.afu.abbaustellen' },
@@ -415,7 +415,6 @@ class APIComparator {
 
             // Amt für Wald, Jagd und Fischerei
             { searchtext: '101 fischerei', filter: 'ch.so.awjf.gewaesser.patentgewaesser' },//funktioniert auch in PROD nicht, simi-t: Such-Ident = ch.so.awjf.gewaesser.patentgewaesser gesetzt
-
             { searchtext: '101 fischereinutzung fischereireviere id', filter: 'ch.so.awjf.gewaesser.fischereireviere' },
             { searchtext: '42865 bestandestyp id', filter: 'ch.so.awjf.bestandeskarte_wald_flaechen' },
             { searchtext: '42865 waldplan eigentum id', filter: 'ch.so.awjf.waldplan.waldeigentum' },
@@ -675,6 +674,10 @@ class APIComparator {
     analyzeStructure(obj, path = '') {
         const structure = {};
 
+        if (this.shouldIgnoreField(path)) {
+            return 'ignored_field';
+        }
+
         if (obj === null) {
             return 'null';
         }
@@ -808,8 +811,18 @@ class APIComparator {
                 if (bothEmpty) {
                     this.summary.emptyResultsTests++;
                     if (expectResults) {
-                        testResult.warnings.push('Beide APIs liefern leere Ergebnisse, aber Ergebnisse wurden erwartet');
-                        console.log(`   ⚠️  Beide APIs liefern leere Ergebnisse (erwartet: Ergebnisse)`);
+                        testResult.status = 'failed';
+
+                        let msg = `   ❌ Fehler: Beide APIs liefern leere Ergebnisse, aber Ergebnisse wurden erwartet`;
+                        console.log(msg);
+                        testResult.error = msg.trim();
+
+                        testResult.differences.push({
+                            type: 'expected_results_missing',
+                            path: 'results',
+                            api1: testResult.api1Analysis.resultCount,
+                            api2: testResult.api2Analysis.resultCount
+                        });
                     } else {
                         console.log(`   ℹ️  Beide APIs liefern leere Ergebnisse (wie erwartet)`);
                     }
@@ -1017,6 +1030,7 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
 
         if (testCases.length === 0) {
             console.log(`❌ Keine Tests zum Ausführen gefunden`);
+            rl.close();
             return {
                 results: [],
                 summary: this.summary,
@@ -1062,7 +1076,7 @@ ${this.ignoreFields.map(field => `- \`${field}\``).join('\n')}
         const report = this.formatReport(this.results);
 
         // Bericht speichern
-        const filename = `api-comparison-${new Date().toISOString().replace(/[:.]/g, '-')}.md`;
+        const filename = `result-${this.filterPrefix?.replace(/[.,]/g, '_') || 'all'}-${new Date().toISOString().replace(/[:.-]/g, '')}.md`;
         const savepath = path.join(process.cwd(), filename);
         fs.writeFileSync(savepath, report);
 
@@ -1110,7 +1124,8 @@ function sortJsonDeep(obj) {
             .sort((a, b) => {
                 // Sortierung nach display-Feld falls vorhanden
                 const getDisplayValue = (item) => {
-                    if (item?.dataproduct?.display) return item.dataproduct.display;
+                    if (item?.dataproduct?.dataproduct_id) return item.dataproduct.dataproduct_id;
+                    if (item?.dataproduct?.sublayers?.dataproduct_id) return item.dataproduct.sublayers.dataproduct_id;
                     if (item?.feature?.display) return item.feature.display;
                     if (item?.display) return item.display;
                     return JSON.stringify(item);

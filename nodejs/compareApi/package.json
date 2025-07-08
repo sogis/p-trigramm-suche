@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node geo_api_comp3.js",
+    "feature": "node geo_api_comp3.js --filter=ch.so",
+    "ebene": "node geo_api_comp3.js --filter=background",
     "test": "node geo_api_comp3.js --filter=ch.so.afu.geotope.aufschluss",
     "readme": "node geo_api_comp3.js --help"
   },
